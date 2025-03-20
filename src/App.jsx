@@ -1,20 +1,18 @@
-import './App.css'
-import Discover from './components/Discover/Discover'
-import Music_Player from './components/MusicPlayer/Music_Player'
-import Navbar from './components/Navbar/Navbar'
-import Playlist from './components/TrackList/Playlist'
-
+import { Route, Routes } from 'react-router-dom'
+import './App.css' 
+import Home from './pages/Home'
+import Discover from './pages/discover/Discover'
+import Favourite from './pages/favourite/favourite'
 function App() {
   
   return (
-  <>
-  <div className="h-screen w-screen flex">
-    <Navbar/>
-    <Discover/>
-    <Music_Player />
-    <Playlist />
-  </div>
-  </>  
+    <Routes >
+        <Route path='/'element={<Home />}>
+          <Route  path='/discover' element={<Discover />} />
+          <Route path='/favourite' element={<Favourite />} />
+          <Route path='/favourite' element={<Favourite />} />
+        </Route>
+      </Routes>
   )}
 
 export default App
