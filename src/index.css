@@ -1,1 +1,9 @@
 @import 'tailwindcss';
+@theme{
+    --animate-loader: spin 1s linear infinite;
+    @keyframes spin {
+        form{
+            transfrom: rotate(0deg);
+        }
+    }
+}

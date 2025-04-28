@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <div className="h-screen w-screen flex">
         <Navbar />
-        <div className='flex flex-col flex-1/3 p-[20px]'>
+        <div className='flex flex-col flex-1/3  p-[20px]'>
             <Outlet />
         </div>
         <Music_Player />
