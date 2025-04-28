@@ -5,14 +5,12 @@ import useFetch from "../../hooks/useFetchMusic";
 export const TopChart = () => {
   const sliderRef = useRef(null);
   const [scrollPosition, setScrollPosition] = useState(0);
+  
+  const client_id = "117e1348";
+  const list = { "albums" : "albums", "artists" : "artists", "tracks" : "tracks", "playlists" : "playlists"};
+  const url = `https://api.jamendo.com/v3.0/${list.albums}/?client_id=${client_id}&format=jsonpretty`;
 
-  const api_key = "e623445a9ab6e9e34add831c86022146";
-
-  const web_url = "http://ws.audioscrobbler.com/2.0"
-
-  const apiUrl= `${web_url}?method=chart.gettoptracks&api_key=${api_key}&format=json&limit`;
-
-  const { setselectedDuration, selectedDuration, error, isloading, dataTopChartList } = useFetch(apiUrl);
+  const { setselectedDuration, selectedDuration, error, isloading, dataTopChartList } = useFetch(url);
 
   const handleSelectedDuration = (event) => {
     setselectedDuration(event.target.value);

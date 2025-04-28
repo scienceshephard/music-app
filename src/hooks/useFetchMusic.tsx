@@ -14,10 +14,7 @@ const useFetch =(url) =>{
           throw new Error(`Error: ${response.status}: ${response.statusText}`)
         }
         const data = await response.json();
-        console.log(data.tracks.track);
-        
-        // setdataTopChartList(data.tracks.track);
-
+        setdataTopChartList(data.results);
       } catch(err){
         setError(err.message)
       }finally{
