@@ -13,6 +13,9 @@ import { Login } from './pages/login/Login'
 import { NotFound } from './pages/404/404'
 function App() {
   
+  //Navigateion states
+  const[origin,setOrigin] = useState(null)
+
   //Data states
   const [ artisteAlbum, setArtisteAlbum ] =useState([])
   const [ artisteTracks, setArtisteTracks ] =useState([])
@@ -25,7 +28,7 @@ function App() {
   const [ songList, setSongList ] = useState([])
 
   return (
-    <MyContext.Provider value={{ artisteAlbum, setArtisteAlbum, artisteTracks, setArtisteTracks, searchData, setSearchData, songList, setSongList, isPlaying, setIsPlaying, displayAudioPlayer, setDisplayAudioPlayer }}>
+    <MyContext.Provider value={{ origin, setOrigin, artisteAlbum, setArtisteAlbum, artisteTracks, setArtisteTracks, searchData, setSearchData, songList, setSongList, isPlaying, setIsPlaying, displayAudioPlayer, setDisplayAudioPlayer }}>
       <Routes >
           <Route path='/'element={<Home />}>
             <Route index element={<Feeds />} />

@@ -9,7 +9,7 @@ const useFetch =(url) =>{
   useEffect(() =>{
     const fetchMusic = async () =>{
       try{
-        const response = await fetch(url);
+        const response = await fetch(`https://api.jamendo.com/v3.0/${url}`);
         if(!response.ok){
           throw new Error(`Error: ${response.status}: ${response.statusText}`)
         }
@@ -22,7 +22,7 @@ const useFetch =(url) =>{
       }
     }
     fetchMusic();
-  }, [url])
+  }, [])
 
   return{ setselectedDuration, selectedDuration, error, isloading, dataTopChartList }
 }

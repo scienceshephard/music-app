@@ -8,10 +8,13 @@ export const TopChart = () => {
   
   const client_id = "117e1348";
   const list = { "albums" : "albums", "artists" : "artists", "tracks" : "tracks", "playlists" : "playlists"};
-  const url = `https://api.jamendo.com/v3.0/${list.albums}/?client_id=${client_id}&format=jsonpretty`;
-
+  const offset= Math.floor(Math.random() * 1000)
+  
+  const limit=10 
+  const url = `${list.albums}/?client_id=${client_id}&format=jsonpretty&limit=${limit}&offset=${offset}`;
+  
+  
   const { setselectedDuration, selectedDuration, error, isloading, dataTopChartList } = useFetch(url);
-
   const handleSelectedDuration = (event) => {
     setselectedDuration(event.target.value);
   };
@@ -116,8 +119,8 @@ export const TopChart = () => {
                   <img 
                     src={item.image} 
                     alt={`${item.name} album cover`} 
-                    className="w-full h-24 object-cover rounded-md mb-2" 
-                    loading="lazy" 
+                    className="w-full h-24 object-cover rounded-md mb-2 hover:blur-[2px] hover:cursor-pointer" 
+                    loading="lazy"
                   />
                   <Link 
                     to={`/artist/${item.artist_id}`} 
@@ -131,9 +134,23 @@ export const TopChart = () => {
                 </div>
               ))
             ) : (
-              !isloading && <div className="w-full text-center text-gray-500">No albums found</div>
+              !isloading && <div className="w-full text-center text-gray-500">Network error. Refresh you browser</div>
             )}
           </div>
+        </div>
+        <div className="border">
+          <h1 className="font-medium text-2xl">You may also like</h1>
+          {/* {!isloading && dataTopChartList && dataTopChartList.length > 0?(
+            useFetch(`${list.tracks}/?client_id=${client_id}&format=jsonpretty&limit=${limit}&offset=${offset}`) &&
+            dataTopChartList.map(item =>(
+              <div key={item.id}>
+                
+              </div>
+            ))
+            ):(
+              !isloading && <div className="w-full text-center">Network error. Refresh you browser</div>
+            )
+          } */}
         </div>
       </div>
     </div>
