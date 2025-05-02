@@ -1,12 +1,6 @@
-// import React, { useContext } from 'react'
 import { TopChart } from '../../components/Top-Chart/TopChart'
-// import { useLocation } from 'react-router'
-import { MyContext } from '../../Context'
 
 function Feeds(){
-
-    // const location = useLocation()
-    // const {setOrigin} = useContext(MyContext)
 
     return(
         <div className='flex flex-col flex-1/3  px-[20px]'>

@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 
 const useFetch =(url) =>{
-    const [selectedDuration, setselectedDuration] = useState()
-    const [dataTopChartList, setdataTopChartList] = useState([])
     const [isloading, setIsLoading] = useState(true)
     const [error, setError] =useState(null)
+    const [fetchedData, setFetchedData] = useState([])
 
   useEffect(() =>{
     const fetchMusic = async () =>{
@@ -14,7 +13,7 @@ const useFetch =(url) =>{
           throw new Error(`Error: ${response.status}: ${response.statusText}`)
         }
         const data = await response.json();
-        setdataTopChartList(data.results);
+        setFetchedData(data.results);
       } catch(err){
         setError(err.message)
       }finally{
@@ -24,6 +23,6 @@ const useFetch =(url) =>{
     fetchMusic();
   }, [])
 
-  return{ setselectedDuration, selectedDuration, error, isloading, dataTopChartList }
+  return{ error, isloading, fetchedData }
 }
 export default useFetch;
