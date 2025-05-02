@@ -95,32 +95,6 @@ export const TopChart = () => {
       
       {/* Slider wrapper with fixed width - adjust the max-w-md (medium) to your needs */}
       <div className="relative  max-w-md w-full">
-        {/* Slider navigation buttons */}
-        {hasScrolledSome() && (
-          <button 
-            onClick={() => scroll('left')} 
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 p-2 rounded-full shadow-md hover:bg-gray-100"
-            aria-label="Scroll left"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-        )}
-        
-        { !error && (hasMoreToScroll() && (
-          <button 
-            onClick={() => scroll('right')} 
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 p-2 rounded-full shadow-md hover:bg-gray-100"
-            aria-label="Scroll right"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        ))
-        }
-        
         {/* Slider container */}
         <div 
           ref={sliderRef}
