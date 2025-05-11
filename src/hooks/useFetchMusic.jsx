@@ -10,7 +10,7 @@ const useFetch =(url) =>{
       try{
         const response = await fetch(`https://api.jamendo.com/v3.0/${url}`);
         if(!response.ok){
-          throw new Error(`Error: ${response.status}: ${response.statusText}`)
+          throw new Error(`Error: ${response.status}`)
         }
         const data = await response.json();
         setFetchedData(data.results);
@@ -21,7 +21,7 @@ const useFetch =(url) =>{
       }
     }
     fetchMusic();
-  }, [])
+  }, [url])
 
   return{ error, isloading, fetchedData }
 }

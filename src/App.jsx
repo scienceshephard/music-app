@@ -25,10 +25,13 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false)
   const [displayAudioPlayer, setDisplayAudioPlayer] = useState(false)
   
+  // Filter Duration States
+  const [selectedDuration, setselectedDuration] = useState("Today")
+
   const [ songList, setSongList ] = useState([])
 
   return (
-    <MyContext.Provider value={{ origin, setOrigin, artisteAlbum, setArtisteAlbum, artisteTracks, setArtisteTracks, searchData, setSearchData, songList, setSongList, isPlaying, setIsPlaying, displayAudioPlayer, setDisplayAudioPlayer }}>
+    <MyContext.Provider value={{ origin, setOrigin, artisteAlbum, setArtisteAlbum, artisteTracks, setArtisteTracks, searchData, setSearchData, songList, setSongList, isPlaying, setIsPlaying, displayAudioPlayer, setDisplayAudioPlayer, selectedDuration, setselectedDuration }}>
       <Routes >
           <Route path='/'element={<Home />}>
             <Route index element={<Feeds />} />

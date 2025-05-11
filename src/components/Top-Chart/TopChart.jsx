@@ -8,7 +8,7 @@ import dayjs from 'dayjs'
 export const TopChart = () => {
   const sliderRef = useRef(null);
   const [scrollPosition, setScrollPosition] = useState(0);
-  
+  const date = new Date();  
   const client_id = "117e1348";
   const limit=10 
   const list = { "albums" : "albums", "artists" : "artists", "tracks" : "tracks", "playlists" : "playlists"};
@@ -49,27 +49,28 @@ export const TopChart = () => {
   const hasScrolledSome = () => {
     return scrollPosition > 0;
   };
+const getDateRange = () => {
+  const fromYear =date.getFullYear()-(Math.random()*3).toFixed(0);
+  const fromMonth = String(date.getMonth() + 1).padStart(2, '0');
+  const fromDay = String(date.getDate()).padStart(2, '0');
 
+  const toYear = date.getFullYear();
+  const toMonth = String(date.getMonth() + 1).padStart(2, '0');
+  const toDay = String(date.getDate()).padStart(2, '0');
+  
+  return  `${fromYear}-${fromMonth}-${fromDay}_${toYear}-${toMonth}-${toDay}`; 
+}
   //Latest albums
   const {selectedDuration, setselectedDuration} = useContext(MyContext)
-  const getDateRange = () => {
-    const today = dayjs().format("YYYY-MM-DD");
-    if (selectedDuration === "Today") {
-      return `${today}_${today}`;
-    } else if (selectedDuration === "Week") {
-      const weekAgo = dayjs().subtract(7, 'day').format("YYYY-MM-DD");
-      return `${weekAgo}_${today}`;
-    } else if (selectedDuration === "Month") {
-      const monthAgo = dayjs().subtract(30, 'day').format("YYYY-MM-DD");
-      return `${monthAgo}_${today}`;
-    }
-    return "";
-  };
+  
   const dateRange= getDateRange()
   
-  const url = `${list.albums}?client_id=${client_id}&format=jsonpretty&limit=${limit}&offset=${offset}&datebetween=${dateRange}`;
-  const trackUrl = `${list.tracks}?client_id=${client_id}&format=jsonpretty&limit=${limit}&offset=${offset}&datebetween=${dateRange}`
-  useEffect(() => {}, [offset])
+  const url = `${list.albums}?client_id=${client_id}&format=jsonpretty&limit=${limit}&offset=${offset}`;
+  const trackUrl = `${list.tracks}?client_id=${client_id}&format=jsonpretty&limit=${limit}&offset=${offset}`
+  useEffect(() => {
+    console.log(dateRange);
+    
+  }, [offset, dateRange])
   
   const { fetchedData: tracks }= useFetch(trackUrl)
   const { error, isloading, fetchedData: albums } = useFetch(url);
@@ -97,22 +98,20 @@ export const TopChart = () => {
       <div className="relative  max-w-md w-full">
         {/* Slider container */}
         <div 
-          ref={sliderRef}
+          // ref={sliderRef}
           className="overflow-x-auto scroll-smooth"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           onScroll={(e) => setScrollPosition(e.target.scrollLeft)}
         >
           <div className="flex gap-5 pb-4">
             {/* Loading animation */}
-            {isloading && (
-              <div className="flex justify-center w-full">
-                <div className="animate-pulse flex space-x-4">
+            {isloading && <div className="flex justify-center overflow-hidden w-full">
+                <div className="animate-pulse flex space-x-4 ">
                   {[1, 2, 3, 4].map((item) => (
                     <div key={item} className="rounded-lg bg-gray-200 h-40 w-28"></div>
                   ))}
                 </div>
-              </div>
-            )}
+            </div>}
             
             {/* Album cards */}
             {!isloading && albums && albums.length > 0 ? (
@@ -136,13 +135,27 @@ export const TopChart = () => {
                 </div>
               ))
             ) : (
-              !isloading && <div className="w-full text-center text-gray-500">Network error. Refresh you browser</div>
+              !isloading && <div> erorr</div>
             )}
           </div>
         </div>
         <div className="">
           <h1 className="font-medium text-2xl">You may also like</h1>
             <div className="flex gap-5 mt-4 pb-4 flex-col h-96  overflow-y-auto">
+              {/* isloading */}
+              {isloading && <div className="h-[500px]  overflow-hidden w-full">
+                            <div className="animate-pulse flex flex-col space-y-3">
+                                {[1, 2, 3, 4, 5, 6].map((item) => (
+                                <div key={item} className=" bg-gray-200 gap-3 h-[100px] p-2 flex w-full">
+                                  <div className="bg-gray-600 w-24 h-full"></div>
+                                  <div className="flex flex-col w-1/3 h-full justify-around ">
+                                    <div className="bg-gray-500 w-full h-3"></div>
+                                    <div className="bg-gray-500 w-full h-3"></div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                </div>}
               {
                 tracks && tracks.length > 0 ? (
                   tracks.map(item => (
@@ -168,19 +181,7 @@ export const TopChart = () => {
                     </div>
                   ))
                 ) : (
-                  !isloading && (
-                    <div className="animate-pulse h-[500px] flex flex-col w-full gap-2.5">
-                            {[1, 2, 3, 4, 5, 6].map((item) => (
-                              <div key={item} className=" bg-gray-200 gap-3 h-[500px] p-2 flex w-full">
-                                <div className="bg-gray-600 w-24 h-full"></div>
-                                <div className="flex flex-col w-1/3 h-full justify-around ">
-                                  <div className="bg-gray-500 w-full h-3"></div>
-                                  <div className="bg-gray-500 w-full h-3"></div>
-                                </div>
-                              </div>
-                            ))}
-                    </div>
-                  )
+                  !isloading && (<div> erorr</div>)
                 )
               }
             </div>
