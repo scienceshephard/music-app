@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 const useFetch =(url) =>{
@@ -6,21 +7,34 @@ const useFetch =(url) =>{
     const [fetchedData, setFetchedData] = useState([])
 
   useEffect(() =>{
-    const fetchMusic = async () =>{
-      try{
-        const response = await fetch(`https://api.jamendo.com/v3.0/${url}`);
-        if(!response.ok){
-          throw new Error(`Error: ${response.status}`)
-        }
-        const data = await response.json();
-        setFetchedData(data.results);
-      } catch(err){
-        setError(err.message)
-      }finally{
-        setIsLoading(false)
+    // const fetchMusic = async () =>{
+    //   try{
+    //     const response = await fetch(`https://api.jamendo.com/v3.0/${url}`);
+    //     if(!response.ok){
+    //       throw new Error(`Error: ${response.status}`)
+    //     }
+    //     const data = await response.json();
+        
+    //     setFetchedData(data.results);
+    //   } catch(err){
+    //     setError(err.message)
+    //   }finally{
+    //     setIsLoading(false)
+    //   }
+    // }
+    // fetchMusic();
+    axios({
+      method: 'GET',
+      url: `https://api.jamendo.com/v3.0/${url}`,
+      params: {
+        client_id: '117e1348',
+        format: 'jsonpretty',
+        limit: 10,
+        offset: Math.floor(Math.random() * 1000)
       }
-    }
-    fetchMusic();
+    }).then((response) => {
+      setFetchedData(response.data.results);
+    })
   }, [url])
 
   return{ error, isloading, fetchedData }

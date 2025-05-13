@@ -19,19 +19,22 @@ function App() {
   //Data states
   const [ artisteAlbum, setArtisteAlbum ] =useState([])
   const [ artisteTracks, setArtisteTracks ] =useState([])
+  //sarch qeury data
   const [ searchData, setSearchData ] =useState([])
 
   //Audio  states
   const [isPlaying, setIsPlaying] = useState(false)
   const [displayAudioPlayer, setDisplayAudioPlayer] = useState(false)
-  
-  // Filter Duration States
-  const [selectedDuration, setselectedDuration] = useState("Today")
 
   const [ songList, setSongList ] = useState([])
 
+  //Animation states
+  const [isloading, setIsLoading] = useState(true)
+  const [albumloading, setAlbumloading]=useState(true)
+
+
   return (
-    <MyContext.Provider value={{ origin, setOrigin, artisteAlbum, setArtisteAlbum, artisteTracks, setArtisteTracks, searchData, setSearchData, songList, setSongList, isPlaying, setIsPlaying, displayAudioPlayer, setDisplayAudioPlayer, selectedDuration, setselectedDuration }}>
+    <MyContext.Provider value={{ albumloading, setAlbumloading, origin, setOrigin, artisteAlbum, setArtisteAlbum, artisteTracks, setArtisteTracks, searchData, setSearchData, songList, setSongList, isPlaying, setIsPlaying, displayAudioPlayer, setDisplayAudioPlayer }}>
       <Routes >
           <Route path='/'element={<Home />}>
             <Route index element={<Feeds />} />

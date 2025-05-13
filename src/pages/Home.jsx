@@ -14,6 +14,7 @@ const Home = () => {
           <Navbar />
           <div className='flex flex-col flex-1/3  p-[20px]'>
               <NavgationButtons />
+              {/* {i} */}
               <Outlet />
           </div>
           <Music_Player />

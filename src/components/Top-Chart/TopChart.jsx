@@ -1,18 +1,17 @@
-import { useState, useRef, useEffect, useContext } from "react";
+import { useState, useRef, useEffect} from "react";
 import { Link } from "react-router-dom";
 import useFetch from "../../hooks/useFetchMusic";
 import { MyContext } from "../../Context";
-import dayjs from 'dayjs'
 
 
 export const TopChart = () => {
   const sliderRef = useRef(null);
   const [scrollPosition, setScrollPosition] = useState(0);
-  const date = new Date();  
   const client_id = "117e1348";
   const limit=10 
   const list = { "albums" : "albums", "artists" : "artists", "tracks" : "tracks", "playlists" : "playlists"};
-  const offset= Math.floor(Math.random() * 1000)
+  const offsetRef=  useRef(Math.floor(Math.random() * 1000))
+  const offset = offsetRef.current;
   
   // format trach duration
   const formatTrackDuration = (seconds) => {
@@ -49,29 +48,10 @@ export const TopChart = () => {
   const hasScrolledSome = () => {
     return scrollPosition > 0;
   };
-const getDateRange = () => {
-  const fromYear =date.getFullYear()-(Math.random()*3).toFixed(0);
-  const fromMonth = String(date.getMonth() + 1).padStart(2, '0');
-  const fromDay = String(date.getDate()).padStart(2, '0');
-
-  const toYear = date.getFullYear();
-  const toMonth = String(date.getMonth() + 1).padStart(2, '0');
-  const toDay = String(date.getDate()).padStart(2, '0');
-  
-  return  `${fromYear}-${fromMonth}-${fromDay}_${toYear}-${toMonth}-${toDay}`; 
-}
-  //Latest albums
-  const {selectedDuration, setselectedDuration} = useContext(MyContext)
-  
-  const dateRange= getDateRange()
-  
-  const url = `${list.albums}?client_id=${client_id}&format=jsonpretty&limit=${limit}&offset=${offset}`;
-  const trackUrl = `${list.tracks}?client_id=${client_id}&format=jsonpretty&limit=${limit}&offset=${offset}`
-  useEffect(() => {
-    console.log(dateRange);
     
-  }, [offset, dateRange])
-  
+  const url = `${list.albums}`;
+  const trackUrl = `${list.tracks}`
+
   const { fetchedData: tracks }= useFetch(trackUrl)
   const { error, isloading, fetchedData: albums } = useFetch(url);
   
@@ -80,16 +60,7 @@ const getDateRange = () => {
     <div className='h-full flex flex-col p-4'>
       <div className="flex justify-between items-center mb-4">
         <p className="text-lg font-semibold">Top-chart</p>
-        <select 
-          name="duration" 
-          value={selectedDuration} 
-          onChange={(event)=>{setselectedDuration(event.target.value)}} 
-          className='ml-auto border-2 rounded-3xl p-2 text-gray-600 hover:cursor-pointer'
-        >
-          <option value="Today" >Today</option>
-          <option value="Week">Week</option>
-          <option value="Month">Month</option>
-        </select>
+        
       </div>
 
       {error && <div className="my-auto text-red-500"> {error} </div>}
@@ -116,7 +87,7 @@ const getDateRange = () => {
             {/* Album cards */}
             {!isloading && albums && albums.length > 0 ? (
               albums.map(item => (
-                <div key={item.id} className="flex flex-col border rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow min-w-[110px] max-w-[110px]">
+                <div key={item.id} className="flex flex-col bg-gray-200 hover:bg-gray-400 rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow min-w-[110px] max-w-[110px]">
                   <img 
                     src={item.image} 
                     alt={`${item.name} album cover`} 
@@ -135,13 +106,13 @@ const getDateRange = () => {
                 </div>
               ))
             ) : (
-              !isloading && <div> erorr</div>
+              !isloading && <div> erorr: <a href="/">Refresh page</a> </div>
             )}
           </div>
         </div>
-        <div className="">
+        {/* <div className=""> */}
           <h1 className="font-medium text-2xl">You may also like</h1>
-            <div className="flex gap-5 mt-4 pb-4 flex-col h-96  overflow-y-auto">
+            <div className="flex gap-5 mt-4 pb-4 flex-col h-110  overflow-y-auto scroll-smooth" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
               {/* isloading */}
               {isloading && <div className="h-[500px]  overflow-hidden w-full">
                             <div className="animate-pulse flex flex-col space-y-3">
@@ -159,7 +130,7 @@ const getDateRange = () => {
               {
                 tracks && tracks.length > 0 ? (
                   tracks.map(item => (
-                    <div key={item.id} className="flex border rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow w-full">
+                    <div key={item.id} className="flex bg-gray-200 hover:bg-gray-400 rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow w-full">
                       <img 
                         src={item.image} 
                         alt={`${item.name} album cover`} 
@@ -185,7 +156,7 @@ const getDateRange = () => {
                 )
               }
             </div>
-        </div>
+        {/* </div> */}
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router'
+import { MyContext } from '../../Context'
 
 const NavgationButtons = () => {
     const navigate = useNavigate()
@@ -9,6 +10,7 @@ const NavgationButtons = () => {
 
     const isNavigatingBack = useRef(false)
     const isNavigatingForward = useRef(false)
+    
     useEffect(()=>{
         if(isNavigatingBack.current){
             isNavigatingBack.current = false
@@ -45,21 +47,27 @@ const NavgationButtons = () => {
             navigate(next)
         }
     }
+    //search qeury
+    const {setSearchData} =useContext(MyContext)
+
     return (
         <div className='flex justify-between items-center mb-4'>
-        <button className='border rounded-4xl p-2 bg-green-500 text-white hover:bg-green-950' onClick={ goBack } disabled={history.length <= 1}>
+        <button className='border rounded-4xl p-2 bg-green-500 text-white hover:bg-green-950 disabled:cursor-not-allowed disabled:hover:bg-green-500' onClick={ goBack } disabled={history.length <= 1}>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
         {
-            forward.length > 0 &&
-        (<button className='border rounded-4xl p-2 bg-green-500 text-white hover:bg-green-950' onClick={ goForward } disabled={ forward.length === 0 }>
+        (<button className='border rounded-4xl p-2 bg-green-500 text-white hover:bg-green-950 disabled:cursor-not-allowed disabled:hover:bg-green-500' onClick={ goForward } disabled={ forward.length === 0 }>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
         </button>)
         }
+        <div className='rounded-2xl inline-flex  bg-green-200 p-3 text-xl'>
+            <label htmlFor="search">Search</label>
+            <input type="search" id="search" className="outline-none " onChange={(e) =>{ setSearchData(e.target.value)}} />
+        </div>
       </div>
   )
 }
