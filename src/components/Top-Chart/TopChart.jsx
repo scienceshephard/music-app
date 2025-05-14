@@ -55,7 +55,6 @@ export const TopChart = () => {
   const { fetchedData: tracks }= useFetch(trackUrl)
   const { error, isloading, fetchedData: albums } = useFetch(url);
   
-
   return (
     <div className='h-full flex flex-col p-4'>
       <div className="flex justify-between items-center mb-4">
@@ -69,7 +68,7 @@ export const TopChart = () => {
       <div className="relative  max-w-md w-full">
         {/* Slider container */}
         <div 
-          // ref={sliderRef}
+          ref={sliderRef}
           className="overflow-x-auto scroll-smooth"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           onScroll={(e) => setScrollPosition(e.target.scrollLeft)}
@@ -128,7 +127,7 @@ export const TopChart = () => {
                             </div>
                 </div>}
               {
-                tracks && tracks.length > 0 ? (
+                !isloading && tracks && tracks.length > 0 ? (
                   tracks.map(item => (
                     <div key={item.id} className="flex bg-gray-200 hover:bg-gray-400 rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow w-full">
                       <img 
@@ -152,7 +151,7 @@ export const TopChart = () => {
                     </div>
                   ))
                 ) : (
-                  !isloading && (<div> erorr</div>)
+                  !isloading && <div> erorr: { error }</div>
                 )
               }
             </div>

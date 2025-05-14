@@ -1,6 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router'
 import { MyContext } from '../../Context'
+import { useSearch } from '../../hooks/useSearch'
 
 const NavgationButtons = () => {
     const navigate = useNavigate()
@@ -48,8 +49,16 @@ const NavgationButtons = () => {
         }
     }
     //search qeury
-    const {setSearchData} =useContext(MyContext)
+  const [ query, setQuery ] = useState('')
+  const [ pageNumber, setPageNumber ] = useState()
 
+  function handleSearch(e){
+    setQuery(e.target.value)
+    setPageNumber(1)
+    console.log(searchData);
+  }
+
+  const { searchData, setSearchData  } = useSearch(query, pageNumber)
     return (
         <div className='flex justify-between items-center mb-4'>
         <button className='border rounded-4xl p-2 bg-green-500 text-white hover:bg-green-950 disabled:cursor-not-allowed disabled:hover:bg-green-500' onClick={ goBack } disabled={history.length <= 1}>
@@ -66,7 +75,7 @@ const NavgationButtons = () => {
         }
         <div className='rounded-2xl inline-flex  bg-green-200 p-3 text-xl'>
             <label htmlFor="search">Search</label>
-            <input type="search" id="search" className="outline-none " onChange={(e) =>{ setSearchData(e.target.value)}} />
+            <input type="search" onChange={handleSearch} id="search" className="outline-none " />
         </div>
       </div>
   )

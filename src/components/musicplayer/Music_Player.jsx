@@ -8,7 +8,6 @@ import { MyContext } from '../../Context';
 export default function Music_Player() {
   
   const {albumloading} = useContext(MyContext)
-  
   return (
     <div className='bg-[#FAFAFA] text-center border-1 border-solid p-[20px] border-gray-300 flex-1/2'>
         {/*Loading animation */}

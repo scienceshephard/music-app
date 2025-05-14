@@ -19,8 +19,10 @@ function App() {
   //Data states
   const [ artisteAlbum, setArtisteAlbum ] =useState([])
   const [ artisteTracks, setArtisteTracks ] =useState([])
+  
   //sarch qeury data
   const [ searchData, setSearchData ] =useState([])
+  
 
   //Audio  states
   const [isPlaying, setIsPlaying] = useState(false)
