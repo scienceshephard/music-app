@@ -34,7 +34,7 @@
 
 ## 🧐 About <a name = "about"></a>
 
-A web application that offers royalty music for free for people. And allows people to listen too them online.
+A web application that offers royalty music free for people. It also allows people to listen to them online. Check out some artists that offers this music, their albums and tracks
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
