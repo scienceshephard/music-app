@@ -58,7 +58,7 @@ const NavgationButtons = () => {
     console.log(searchData);
   }
 
-  const { searchData, setSearchData  } = useSearch(query, pageNumber)
+  const { searchData} = useSearch(query, pageNumber)
     return (
         <div className='flex justify-between items-center mb-4'>
         <button className='border rounded-4xl p-2 bg-green-500 text-white hover:bg-green-950 disabled:cursor-not-allowed disabled:hover:bg-green-500' onClick={ goBack } disabled={history.length <= 1}>

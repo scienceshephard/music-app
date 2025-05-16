@@ -3,17 +3,17 @@ import { Link } from "react-router-dom";
 import useFetch from "../../hooks/useFetchMusic";
 import { MyContext } from "../../Context";
 
-
 export const TopChart = () => {
   const sliderRef = useRef(null);
+  const trackListRef = useRef(null);
   const [scrollPosition, setScrollPosition] = useState(0);
-  const client_id = "117e1348";
-  const limit=10 
   const list = { "albums" : "albums", "artists" : "artists", "tracks" : "tracks", "playlists" : "playlists"};
-  const offsetRef=  useRef(Math.floor(Math.random() * 1000))
-  const offset = offsetRef.current;
   
-  // format trach duration
+  // Use separate offsets for albums and tracks
+  const [albumOffset, setAlbumOffset] = useState(Math.floor(Math.random() * 1000));
+  const [trackOffset, setTrackOffset] = useState(Math.floor(Math.random() * 1000));
+  
+  // format track duration
   const formatTrackDuration = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -26,7 +26,7 @@ export const TopChart = () => {
     if (!container) return;
     
     const scrollAmount = 300; // Adjust scroll amount as needed
-    const newPosition = direction === 'left' 
+    const newPosition = direction === 'left'
       ? Math.max(scrollPosition - scrollAmount, 0)
       : Math.min(scrollPosition + scrollAmount, container.scrollWidth - container.clientWidth);
     
@@ -49,23 +49,100 @@ export const TopChart = () => {
     return scrollPosition > 0;
   };
     
-  const url = `${list.albums}`;
-  const trackUrl = `${list.tracks}`
+  const albumUrl = `${list.albums}`;
+  const trackUrl = `${list.tracks}`;
 
-  const { fetchedData: tracks }= useFetch(trackUrl)
-  const { error, isloading, fetchedData: albums } = useFetch(url);
+  // Use separate fetch hooks for albums and tracks with their own offsets
+  const { 
+    fetchedData: tracks, 
+    isloading: loadingTrack, 
+    hasMore: moreTracks 
+  } = useFetch(trackUrl, trackOffset);
   
+  const { 
+    error, 
+    isloading: loadingAlbums, 
+    fetchedData: albums, 
+    hasMore: moreAlbums 
+  } = useFetch(albumUrl, albumOffset);
+
+  // Track previous data to append new items
+  const [allAlbums, setAllAlbums] = useState([]);
+  const [allTracks, setAllTracks] = useState([]);
+
+  // Update accumulated data when new data arrives
+  useEffect(() => {
+    if (albums && albums.length > 0) {
+      setAllAlbums(prev => {
+        // Filter out duplicates based on id
+        const newAlbums = albums.filter(
+          album => !prev.some(existingAlbum => existingAlbum.id === album.id)
+        );
+        return [...prev, ...newAlbums];
+      });
+    }
+  }, [albums]);
+
+  useEffect(() => {
+    if (tracks && tracks.length > 0) {
+      setAllTracks(prev => {
+        // Filter out duplicates based on id
+        const newTracks = tracks.filter(
+          track => !prev.some(existingTrack => existingTrack.id === track.id)
+        );
+        return [...prev, ...newTracks];
+      });
+    }
+  }, [tracks]);
+
+  // Horizontal scrolling for albums
+  useEffect(() => {
+    const slide = sliderRef.current;
+    if (!slide) return;
+
+    const handleScroll = () => {
+      if (
+        slide.scrollLeft + slide.clientWidth >= slide.scrollWidth - 20 && 
+        moreAlbums && 
+        !loadingAlbums
+      ) {
+        setAlbumOffset(prev => prev + 10);
+      }
+    };
+
+    slide.addEventListener('scroll', handleScroll);
+    return () => slide.removeEventListener('scroll', handleScroll);
+  }, [moreAlbums, loadingAlbums]);
+
+  // Vertical scrolling for tracks
+  useEffect(() => {
+    const trackDiv = trackListRef.current;
+    if (!trackDiv) return;
+
+    const handleScroll = () => {
+      if (
+        trackDiv.scrollTop + trackDiv.clientHeight >= trackDiv.scrollHeight - 20 && 
+        moreTracks && 
+        !loadingTrack
+      ) {
+        setTrackOffset(prev => prev + 10);
+      }
+    };
+
+    trackDiv.addEventListener('scroll', handleScroll);
+    return () => trackDiv.removeEventListener('scroll', handleScroll);
+  }, [moreTracks, loadingTrack]);
+
   return (
     <div className='h-full flex flex-col p-4'>
       <div className="flex justify-between items-center mb-4">
         <p className="text-lg font-semibold">Top-chart</p>
-        
       </div>
 
       {error && <div className="my-auto text-red-500"> {error} </div>}
       
       {/* Slider wrapper with fixed width - adjust the max-w-md (medium) to your needs */}
-      <div className="relative  max-w-md w-full">
+      <div className="relative max-w-md w-full">
         {/* Slider container */}
         <div 
           ref={sliderRef}
@@ -75,17 +152,19 @@ export const TopChart = () => {
         >
           <div className="flex gap-5 pb-4">
             {/* Loading animation */}
-            {isloading && <div className="flex justify-center overflow-hidden w-full">
-                <div className="animate-pulse flex space-x-4 ">
+            {loadingAlbums && allAlbums.length === 0 && (
+              <div className="flex justify-center overflow-hidden w-full">
+                <div className="animate-pulse flex space-x-4">
                   {[1, 2, 3, 4].map((item) => (
                     <div key={item} className="rounded-lg bg-gray-200 h-40 w-28"></div>
                   ))}
                 </div>
-            </div>}
+              </div>
+            )}
             
             {/* Album cards */}
-            {!isloading && albums && albums.length > 0 ? (
-              albums.map(item => (
+            {allAlbums.length > 0 ? (
+              allAlbums.map(item => (
                 <div key={item.id} className="flex flex-col bg-gray-200 hover:bg-gray-400 rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow min-w-[110px] max-w-[110px]">
                   <img 
                     src={item.image} 
@@ -105,57 +184,82 @@ export const TopChart = () => {
                 </div>
               ))
             ) : (
-              !isloading && <div> erorr: <a href="/">Refresh page</a> </div>
+              !loadingAlbums && <div>Error: <a href="/">Refresh page</a></div>
+            )}
+            
+            {/* Loading indicator at the end of albums */}
+            {loadingAlbums && allAlbums.length > 0 && (
+              <div className="flex justify-center">
+                <div className="rounded-lg bg-gray-200 h-40 w-28 animate-pulse"></div>
+              </div>
             )}
           </div>
         </div>
-        {/* <div className=""> */}
-          <h1 className="font-medium text-2xl">You may also like</h1>
-            <div className="flex gap-5 mt-4 pb-4 flex-col h-110  overflow-y-auto scroll-smooth" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-              {/* isloading */}
-              {isloading && <div className="h-[500px]  overflow-hidden w-full">
-                            <div className="animate-pulse flex flex-col space-y-3">
-                                {[1, 2, 3, 4, 5, 6].map((item) => (
-                                <div key={item} className=" bg-gray-200 gap-3 h-[100px] p-2 flex w-full">
-                                  <div className="bg-gray-600 w-24 h-full"></div>
-                                  <div className="flex flex-col w-1/3 h-full justify-around ">
-                                    <div className="bg-gray-500 w-full h-3"></div>
-                                    <div className="bg-gray-500 w-full h-3"></div>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                </div>}
-              {
-                !isloading && tracks && tracks.length > 0 ? (
-                  tracks.map(item => (
-                    <div key={item.id} className="flex bg-gray-200 hover:bg-gray-400 rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow w-full">
-                      <img 
-                        src={item.image} 
-                        alt={`${item.name} album cover`} 
-                        className="w-24 h-24 object-cover rounded-md mb-2 hover:blur-[2px] hover:cursor-pointer" 
-                        loading="lazy"
-                      />
-                      <div className="flex flex-col justify-around ml-2 overflow-hidden">
-                        <Link 
-                          to={`/artist/${item.artist_id}`} 
-                          className="text-blue-600 hover:text-blue-950 text-sm font-medium truncate"
-                        >
-                          {item.artist_name}
-                        </Link>
-                        <span className="text-xs text-gray-700 truncate" title={item.name}>
-                          {item.name}
-                        </span>
-                      </div>
-                      <span className="text-sm text-gray-700 ml-auto self-center">{formatTrackDuration(item.duration)}</span>
+
+        <h1 className="font-medium text-2xl">You may also like</h1>
+        <div 
+          className="flex gap-5 mt-4 pb-4 flex-col h-110 overflow-y-auto scroll-smooth" 
+          ref={trackListRef} 
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {/* Initial loading */}
+          {loadingTrack && allTracks.length === 0 && (
+            <div className="h-[500px] overflow-hidden w-full">
+              <div className="animate-pulse flex flex-col space-y-3">
+                {[1, 2, 3, 4, 5, 6].map((item) => (
+                  <div key={item} className="bg-gray-200 gap-3 h-[100px] p-2 flex w-full">
+                    <div className="bg-gray-600 w-24 h-full"></div>
+                    <div className="flex flex-col w-1/3 h-full justify-around">
+                      <div className="bg-gray-500 w-full h-3"></div>
+                      <div className="bg-gray-500 w-full h-3"></div>
                     </div>
-                  ))
-                ) : (
-                  !isloading && <div> erorr: { error }</div>
-                )
-              }
+                  </div>
+                ))}
+              </div>
             </div>
-        {/* </div> */}
+          )}
+          
+          {/* Track list */}
+          {allTracks.length > 0 ? (
+            allTracks.map(item => (
+              <div key={item.id} className="flex bg-gray-200 hover:bg-gray-400 rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow w-full">
+                <img 
+                  src={item.image} 
+                  alt={`${item.name} album cover`} 
+                  className="w-24 h-24 object-cover rounded-md mb-2 hover:blur-[2px] hover:cursor-pointer" 
+                  loading="lazy"
+                />
+                <div className="flex flex-col justify-around ml-2 overflow-hidden">
+                  <Link 
+                    to={`/artist/${item.artist_id}`} 
+                    className="text-blue-600 hover:text-blue-950 text-sm font-medium truncate"
+                  >
+                    {item.artist_name}
+                  </Link>
+                  <span className="text-xs text-gray-700 truncate" title={item.name}>
+                    {item.name}
+                  </span>
+                </div>
+                <span className="text-sm text-gray-700 ml-auto self-center">
+                  {formatTrackDuration(item.duration)}
+                </span>
+              </div>
+            ))
+          ) : (
+            !loadingTrack && <div>Error: {error}</div>
+          )}
+          
+          {/* Loading indicator at the end of tracks */}
+          {loadingTrack && allTracks.length > 0 && (
+            <div className="bg-gray-200 gap-3 h-[100px] p-2 flex w-full animate-pulse">
+              <div className="bg-gray-600 w-24 h-full"></div>
+              <div className="flex flex-col w-1/3 h-full justify-around">
+                <div className="bg-gray-500 w-full h-3"></div>
+                <div className="bg-gray-500 w-full h-3"></div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
