@@ -1,4 +1,4 @@
-# React + Vite + Tailwindcss + Jamendo API
+# React + Vite + Tailwindcss + Jamendo API + Firebase
 
 <p align="center">
   <a href="" rel="noopener">
@@ -45,9 +45,9 @@ These instructions will get you a copy of the project up and running on your loc
 ## ⛏️ Built Using <a name = "built_using"></a>
 
 - [Firebase](https://firebase.studio/) - Database and server framework
-- [Jamendo](https://developer.jamendo.com/) - Music API 
+- [Jamendo](https://developer.jamendo.com/) - Music API
 - [Vite](https://vite.dev/) - Web Framework
-- [NodeJs](https://nodejs.org/en/) - Server Environment
+- [Tailwindcss](https://tailwindcss.com/) - CSS framework
 
 ## ✍️ Authors <a name = "author"></a>
 
