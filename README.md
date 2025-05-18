@@ -29,7 +29,7 @@
 - [Built Using](#built_using)
 - [TODO](../TODO.md)
 - [Contributing](../CONTRIBUTING.md)
-- [Authors](#author)
+- [Author](#author)
 - [Acknowledgments](#acknowledgement)
 
 ## 🧐 About <a name = "about"></a>
@@ -37,9 +37,7 @@
 A web application that offers royalty music free for people. It also allows people to listen to them online. Check out some artists that offers this music, their albums and tracks
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
-
+Create an account on the website then you will have many music available to you
 
 
 ## ⛏️ Built Using <a name = "built_using"></a>
@@ -49,7 +47,7 @@ These instructions will get you a copy of the project up and running on your loc
 - [Vite](https://vite.dev/) - Web Framework
 - [Tailwindcss](https://tailwindcss.com/) - CSS framework
 
-## ✍️ Authors <a name = "author"></a>
+## ✍️ Author <a name = "author"></a>
 
 - [@scienceshephard](https://github.com/scienceshephard) -
 
