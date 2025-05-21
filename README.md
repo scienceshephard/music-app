@@ -27,8 +27,6 @@
 - [About](#about)
 - [Getting Started](#getting_started)
 - [Built Using](#built_using)
-- [TODO](../TODO.md)
-- [Contributing](../CONTRIBUTING.md)
 - [Author](#author)
 - [Acknowledgments](#acknowledgement)
 
@@ -37,6 +35,7 @@
 A web application that offers royalty music free for people. It also allows people to listen to them online. Check out some artists that offers this music, their albums and tracks
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
+
 Create an account on the website then you will have many music available to you
 
 

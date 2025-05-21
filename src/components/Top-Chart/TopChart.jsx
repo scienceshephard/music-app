@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect} from "react";
+import { useState, useRef, useEffect, useContext} from "react";
 import { Link } from "react-router-dom";
 import useFetch from "../../hooks/useFetchMusic";
 import { MyContext } from "../../Context";
@@ -9,6 +9,11 @@ export const TopChart = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const list = { "albums" : "albums", "artists" : "artists", "tracks" : "tracks", "playlists" : "playlists"};
   
+  //Selected song
+  const selectedSong = useContext(MyContext);
+  const setSelectedSong = (item) => {
+    selectedSong.current = item;
+  }
   // Use separate offsets for albums and tracks
   const [albumOffset, setAlbumOffset] = useState(Math.floor(Math.random() * 1000));
   const [trackOffset, setTrackOffset] = useState(Math.floor(Math.random() * 1000));
@@ -53,10 +58,10 @@ export const TopChart = () => {
   const trackUrl = `${list.tracks}`;
 
   // Use separate fetch hooks for albums and tracks with their own offsets
-  const { 
-    fetchedData: tracks, 
-    isloading: loadingTrack, 
-    hasMore: moreTracks 
+  const {
+    fetchedData: tracks,
+    isloading: loadingTrack,
+    hasMore: moreTracks
   } = useFetch(trackUrl, trackOffset);
   
   const { 
@@ -165,7 +170,7 @@ export const TopChart = () => {
             {/* Album cards */}
             {allAlbums.length > 0 ? (
               allAlbums.map(item => (
-                <div key={item.id} className="flex flex-col bg-gray-200 hover:bg-gray-400 rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow min-w-[110px] max-w-[110px]">
+                <div key={item.id} className="flex flex-col bg-gray-200 hover:bg-gray-400 rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow min-w-[110px] max-w-[110px]"  onClick={ ()=> setSelectedSong(item) }>
                   <img 
                     src={item.image} 
                     alt={`${item.name} album cover`} 
