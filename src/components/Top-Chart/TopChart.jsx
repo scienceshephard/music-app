@@ -6,7 +6,6 @@ import { MyContext } from "../../Context";
 export const TopChart = () => {
   const sliderRef = useRef(null);
   const trackListRef = useRef(null);
-  const [scrollPosition, setScrollPosition] = useState(0);
   const list = { "albums" : "albums", "artists" : "artists", "tracks" : "tracks", "playlists" : "playlists"};
   
   //Selected song
@@ -25,34 +24,6 @@ export const TopChart = () => {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   }
 
-  //Scrollbutton
-  const scroll = (direction) => {
-    const container = sliderRef.current;
-    if (!container) return;
-    
-    const scrollAmount = 300; // Adjust scroll amount as needed
-    const newPosition = direction === 'left'
-      ? Math.max(scrollPosition - scrollAmount, 0)
-      : Math.min(scrollPosition + scrollAmount, container.scrollWidth - container.clientWidth);
-    
-    container.scrollTo({
-      left: newPosition,
-      behavior: 'smooth'
-    });
-    
-    setScrollPosition(newPosition);
-  };
-
-  const hasMoreToScroll = () => {
-    const container = sliderRef.current;
-    if (!container) return false;
-    
-    return scrollPosition < (container.scrollWidth - container.clientWidth);
-  };
-
-  const hasScrolledSome = () => {
-    return scrollPosition > 0;
-  };
     
   const albumUrl = `${list.albums}`;
   const trackUrl = `${list.tracks}`;
@@ -153,7 +124,6 @@ export const TopChart = () => {
           ref={sliderRef}
           className="overflow-x-auto scroll-smooth"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          onScroll={(e) => setScrollPosition(e.target.scrollLeft)}
         >
           <div className="flex gap-5 pb-4">
             {/* Loading animation */}
