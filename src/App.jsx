@@ -6,7 +6,7 @@ import Favourite from './pages/favorite/favorite'
 import { Account } from './pages/account/Account'
 import { ArtistInfo } from './components/artist/ArtistInfo'
 import { MyContext } from './Context'
-import { useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Playlist from './components/trackList/Playlist'
 import { SignUp } from './pages/sign-up/Sign-Up'
 import { Login } from './pages/login/Login'
@@ -23,8 +23,13 @@ function App() {
   //sarch qeury data
   const [ searchData, setSearchData ] =useState([])
   
-  const selectedSong = useRef(null)
-
+  const [selectedSong, setSelectedSong] = useState(()=>{
+    const storedSong = localStorage.getItem('selectedSong')
+    return storedSong? JSON.parse(storedSong): [];
+  })
+useEffect(() => {
+  localStorage.setItem('selectedSong', JSON.stringify(selectedSong));
+}, [selectedSong]);
   //Audio  states
   const [isPlaying, setIsPlaying] = useState(false)
   const [displayAudioPlayer, setDisplayAudioPlayer] = useState(false)
@@ -36,7 +41,7 @@ function App() {
 
 
   return (
-    <MyContext.Provider value={{ selectedSong, albumloading, setAlbumloading, origin, setOrigin, artisteAlbum, setArtisteAlbum, artisteTracks, setArtisteTracks, searchData, setSearchData, songList, setSongList, isPlaying, setIsPlaying, displayAudioPlayer, setDisplayAudioPlayer }}>
+    <MyContext.Provider value={{ selectedSong, setSelectedSong, albumloading, setAlbumloading, origin, setOrigin, artisteAlbum, setArtisteAlbum, artisteTracks, setArtisteTracks, searchData, setSearchData, songList, setSongList, isPlaying, setIsPlaying, displayAudioPlayer, setDisplayAudioPlayer }}>
       <Routes >
           <Route path='/'element={<Home />}>
             <Route index element={<Feeds />} />
