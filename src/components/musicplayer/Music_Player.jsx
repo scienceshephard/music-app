@@ -7,6 +7,7 @@ import { MyContext } from '../../Context';
 export default function Music_Player() {
   
   const {albumloading, selectedSong} = useContext(MyContext)
+
   return (
     <div className='bg-[#FAFAFA] text-center border-1 border-solid p-[20px] border-gray-300 flex-1/2'>
         {/*Loading animation */}
@@ -69,7 +70,7 @@ export default function Music_Player() {
             </button>
           </div>
         </div>
-        <audio src="" controls></audio>
+        <audio src={selectedSong?.audio} controls></audio>
       </div>
       }
     </div>

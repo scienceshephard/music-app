@@ -2,6 +2,8 @@ import { useState, useRef, useEffect, useContext} from "react";
 import { Link } from "react-router-dom";
 import useFetch from "../../hooks/useFetchMusic";
 import { MyContext } from "../../Context";
+import { Album_Card } from "../album/Album_Card";
+import { Track_Card } from "../album/Track_Card";
 
 export const TopChart = () => {
   const sliderRef = useRef(null);
@@ -12,19 +14,16 @@ export const TopChart = () => {
   const {setSelectedSong ,setAlbumloading} = useContext(MyContext);
 
   const handleSelectedSong = (item) => {
-    setAlbumloading(false)
-    setSelectedSong(item)
+ 
+    setTimeout(() => {
+      setAlbumloading(false)
+      setSelectedSong(item)
+    }, 500);
   }
   // Use separate offsets for albums and tracks
   const [albumOffset, setAlbumOffset] = useState(Math.floor(Math.random() * 1000));
   const [trackOffset, setTrackOffset] = useState(Math.floor(Math.random() * 1000));
   
-  // format track duration
-  const formatTrackDuration = (seconds) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-  }
 
     
   const albumUrl = `${list.albums}`;
@@ -142,23 +141,7 @@ export const TopChart = () => {
             {/* Album cards */}
             {allAlbums.length > 0 ? (
               allAlbums.map(item => (
-                <div key={item.id} className="flex flex-col bg-gray-200 hover:bg-gray-400 rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow min-w-[110px] max-w-[110px]"  onClick={ ()=> handleSelectedSong(item) }>
-                  <img 
-                    src={item.image} 
-                    alt={`${item.name} album cover`} 
-                    className="w-full h-24 object-cover rounded-md mb-2 hover:blur-[2px] hover:cursor-pointer" 
-                    loading="lazy"
-                  />
-                  <Link 
-                    to={`/artist/${item.artist_id}`} 
-                    className="text-blue-600 hover:text-blue-950 text-sm font-medium truncate"
-                  >
-                    {item.artist_name}
-                  </Link>
-                  <span className="text-xs text-gray-700 truncate" title={item.name}>
-                    {item.name}
-                  </span>
-                </div>
+                <Album_Card handleSelectedSong={handleSelectedSong} album={item} />
               ))
             ) : (
               !loadingAlbums && <div>Error: <a href="/">Refresh page</a></div>
@@ -198,30 +181,8 @@ export const TopChart = () => {
           
           {/* Track list */}
           {allTracks.length > 0 ? (
-            allTracks.map(item => (
-              <div key={item.id} className="flex bg-gray-200 hover:bg-gray-400 rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow w-full">
-                <img 
-                  src={item.image} 
-                  alt={`${item.name} album cover`} 
-                  className="w-24 h-24 object-cover rounded-md mb-2 hover:blur-[2px] hover:cursor-pointer" 
-                  loading="lazy"
-                />
-                <div className="flex flex-col justify-around ml-2 overflow-hidden">
-                  <Link 
-                    to={`/artist/${item.artist_id}`} 
-                    className="text-blue-600 hover:text-blue-950 text-sm font-medium truncate"
-                  >
-                    {item.artist_name}
-                  </Link>
-                  <span className="text-xs text-gray-700 truncate" title={item.name}>
-                    {item.name}
-                  </span>
-                </div>
-                <span className="text-sm text-gray-700 ml-auto self-center">
-                  {formatTrackDuration(item.duration)}
-                </span>
-              </div>
-            ))
+            allTracks.map(item => ( <Track_Card tracks ={ item } handleSelectedSong = {handleSelectedSong} />)
+          )
           ) : (
             !loadingTrack && <div>Error: {error}</div>
           )}
