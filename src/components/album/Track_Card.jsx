@@ -1,14 +1,26 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router';
+import { MyContext } from '../../Context';
 
-export const Track_Card = ({ handleSelectedSong, tracks }) => {
+export const Track_Card = ({ tracks }) => {
 
   // format track duration
   const formatTrackDuration = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+      return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   }
+
+
+    //Selected song
+    const {setSelectedSong ,setAlbumloading} = useContext(MyContext);
+    const handleSelectedSong = (item) => {
+      setTimeout(() => {
+        setAlbumloading(false)
+        setSelectedSong(item)
+      }, 500);
+    }
+
 return (
         <div key={tracks.id} onClick={() => handleSelectedSong(tracks)} className="flex bg-gray-200 hover:bg-gray-400 rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow w-full">
             <img 

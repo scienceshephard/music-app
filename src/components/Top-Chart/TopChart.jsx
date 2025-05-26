@@ -1,7 +1,5 @@
-import { useState, useRef, useEffect, useContext} from "react";
-import { Link } from "react-router-dom";
+import { useState, useRef, useEffect } from "react";
 import useFetch from "../../hooks/useFetchMusic";
-import { MyContext } from "../../Context";
 import { Album_Card } from "../album/Album_Card";
 import { Track_Card } from "../album/Track_Card";
 
@@ -9,17 +7,6 @@ export const TopChart = () => {
   const sliderRef = useRef(null);
   const trackListRef = useRef(null);
   const list = { "albums" : "albums", "artists" : "artists", "tracks" : "tracks", "playlists" : "playlists"};
-  
-  //Selected song
-  const {setSelectedSong ,setAlbumloading} = useContext(MyContext);
-
-  const handleSelectedSong = (item) => {
- 
-    setTimeout(() => {
-      setAlbumloading(false)
-      setSelectedSong(item)
-    }, 500);
-  }
   // Use separate offsets for albums and tracks
   const [albumOffset, setAlbumOffset] = useState(Math.floor(Math.random() * 1000));
   const [trackOffset, setTrackOffset] = useState(Math.floor(Math.random() * 1000));
@@ -141,7 +128,7 @@ export const TopChart = () => {
             {/* Album cards */}
             {allAlbums.length > 0 ? (
               allAlbums.map(item => (
-                <Album_Card handleSelectedSong={handleSelectedSong} album={item} />
+                <Album_Card key={item.id} album={item} />
               ))
             ) : (
               !loadingAlbums && <div>Error: <a href="/">Refresh page</a></div>
@@ -181,7 +168,7 @@ export const TopChart = () => {
           
           {/* Track list */}
           {allTracks.length > 0 ? (
-            allTracks.map(item => ( <Track_Card tracks ={ item } handleSelectedSong = {handleSelectedSong} />)
+            allTracks.map(item => ( <Track_Card key={item.id} tracks ={ item } />)
           )
           ) : (
             !loadingTrack && <div>Error: {error}</div>
