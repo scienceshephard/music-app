@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { MyContext } from "../Context";
 
 const useFetch = (url, offset) => {
   const [isloading, setIsLoading] = useState(false);

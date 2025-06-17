@@ -6,7 +6,7 @@ import Favourite from './pages/favorite/favorite'
 import { Account } from './pages/account/Account'
 import { ArtistInfo } from './components/artist/ArtistInfo'
 import { MyContext } from './Context'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Playlist from './components/trackList/Playlist'
 import { SignUp } from './pages/sign-up/Sign-Up'
 import { Login } from './pages/login/Login'
@@ -17,10 +17,10 @@ function App() {
   const[origin, setOrigin] = useState(null)
 
   //Data states
-  const [ artisteAlbum, setArtisteAlbum ] =useState([])
-  const [ artisteTracks, setArtisteTracks ] =useState([])
+  const [allAlbums, setAllAlbums] = useState([]);
+  const [allTracks, setAllTracks] = useState([]);
   
-  //sarch qeury data
+  //search qeury data
   const [ searchData, setSearchData ] =useState([])
   
   const [selectedSong, setSelectedSong] = useState(()=>{
@@ -33,6 +33,10 @@ useEffect(() => {
   //Audio  states
   const [isPlaying, setIsPlaying] = useState(false)
   const [displayAudioPlayer, setDisplayAudioPlayer] = useState(false)
+  const [currentSongIndex, setCurrentSongIndex] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const audioRef = useRef(null);
 
   const [ songList, setSongList ] = useState([])
 
@@ -41,12 +45,12 @@ useEffect(() => {
 
 
   return (
-    <MyContext.Provider value={{ selectedSong, setSelectedSong, albumloading, setAlbumloading, origin, setOrigin, artisteAlbum, setArtisteAlbum, artisteTracks, setArtisteTracks, searchData, setSearchData, songList, setSongList, isPlaying, setIsPlaying, displayAudioPlayer, setDisplayAudioPlayer }}>
+    <MyContext.Provider value={{ currentTime, setCurrentTime, duration, setDuration, audioRef, currentSongIndex, setCurrentSongIndex, selectedSong, setSelectedSong, albumloading, setAlbumloading, origin, setOrigin, allAlbums, setAllAlbums, allTracks, setAllTracks, searchData, setSearchData, songList, setSongList, isPlaying, setIsPlaying, displayAudioPlayer, setDisplayAudioPlayer }}>
       <Routes >
           <Route path='/'element={<Home />}>
             <Route index element={<Feeds />} />
-            <Route path='/artist/:id/:name' element={<ArtistInfo />} />
-            <Route path='playlist/:id/:name' element={<Playlist/>} />
+            <Route path='/artist/:name' element={<ArtistInfo />} />
+            <Route path='playlist/:name' element={<Playlist/>} />
             <Route path='/favourite' element={<Favourite />} />
             <Route path='account' element= {<Account />} />
           </Route>

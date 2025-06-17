@@ -1,7 +1,8 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import useFetch from "../../hooks/useFetchMusic";
 import { Album_Card } from "../album/Album_Card";
 import { Track_Card } from "../album/Track_Card";
+import { MyContext } from "../../Context";
 
 export const TopChart = () => {
   const sliderRef = useRef(null);
@@ -31,8 +32,7 @@ export const TopChart = () => {
   } = useFetch(albumUrl, albumOffset);
 
   // Track previous data to append new items
-  const [allAlbums, setAllAlbums] = useState([]);
-  const [allTracks, setAllTracks] = useState([]);
+  const { allAlbums, setAllAlbums, allTracks, setAllTracks } = useContext(MyContext)
 
   // Update accumulated data when new data arrives
   useEffect(() => {

@@ -10,9 +10,6 @@ export const Album_Card = ({album}) => {
     const {setSelectedSong ,setAlbumloading} = useContext(MyContext);
   
     const HandleSelectedSong = async (item) => {
-      console.log(item);
-      
-      setAlbumloading(true);
       try{
         const res = await axios.get(`https://api.jamendo.com/v3.0/tracks`, {
           params:{
@@ -23,8 +20,8 @@ export const Album_Card = ({album}) => {
         })
         const tracks = res.data.results;
         if(tracks.length > 0) {
-          console.log('tracks' ,tracks);
-          setSelectedSong(tracks[0]);}
+          tracks.sort((a, b) => a.postion - b.position);
+          setSelectedSong(tracks);}
           else{
             console.warn('No tracks found for album ', item.name);     
           }
@@ -38,15 +35,16 @@ export const Album_Card = ({album}) => {
   
 
   return (
-        <div className="flex flex-col bg-gray-200 hover:bg-gray-400 rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow min-w-[110px] max-w-[110px]"  onClick={ ()=> HandleSelectedSong(album) }>
+        <div className="flex flex-col bg-gray-200 hover:bg-gray-400 rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow min-w-[110px] max-w-[110px]">
             <img 
-            src={album?.image} 
+            onClick={ ()=> HandleSelectedSong(album) }
+            src={album?.image}
             alt={`${album.name} album cover`} 
             className="w-full h-24 object-cover rounded-md mb-2 hover:blur-[2px] hover:cursor-pointer" 
             loading="lazy"
             />
             <Link 
-            to={`/artist/${album?.artist_id}`} 
+            to={`/artist/${album?.artist_name}`} 
             className="text-blue-600 hover:text-blue-950 text-sm font-medium truncate"
             >
             {album?.artist_name}

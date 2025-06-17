@@ -13,11 +13,13 @@ export const Track_Card = ({ tracks }) => {
 
 
     //Selected song
-    const {setSelectedSong ,setAlbumloading} = useContext(MyContext);
+    const { setSelectedSong ,setAlbumloading, currentSongIndex } = useContext(MyContext);
     const handleSelectedSong = (item) => {
       setTimeout(() => {
         setAlbumloading(false)
-        setSelectedSong(item)
+        setSelectedSong([item])
+        currentSongIndex(0)
+        
       }, 500);
     }
 

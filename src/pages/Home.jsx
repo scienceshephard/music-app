@@ -7,7 +7,7 @@ import NavgationButtons from '../components/navbar/NavgationButtons'
 import SideMusicPlayer from '../components/side_music_player/SideMusicPlayer'
 
 const Home = () => {
-
+  
   return (
     <div className="w-screen h-screen flex justify-between lg:flex-col sm:flex-row">
         <div className='flex border h-full'>
