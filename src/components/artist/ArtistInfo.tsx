@@ -35,7 +35,7 @@ export const ArtistInfo = () => {
     <div>
       {artistInfo ? (
         <div className="">
-          <img src={ artistInfo[0].image } alt={artistInfo[0].name} className=' w-2/3 border mx-auto rounded-2xl' />
+          { artistInfo[0].image? <img src={ artistInfo[0].image } alt={artistInfo[0].name} className=' w-2/3 mx-auto rounded-2xl' /> :  <img src='https://www.w3schools.com/howto/img_avatar.png' alt='avatar' className=' w-2/3 mx-auto rounded-2xl' />}
           <p>{ artistInfo[0].name }</p>
         </div>
       ) : (

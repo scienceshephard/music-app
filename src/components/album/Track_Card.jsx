@@ -24,19 +24,20 @@ export const Track_Card = ({ tracks }) => {
     }
 
 return (
-        <div key={tracks.id} onClick={() => handleSelectedSong(tracks)} className="flex bg-gray-200 hover:bg-gray-400 rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow w-full">
+        <div key={tracks.id} className="flex bg-gray-200 hover:bg-gray-400 rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow w-full">
             <img 
                 src={tracks.image} 
                 alt={`${tracks.name} album cover`} 
                 className="w-24 h-24 object-cover rounded-md mb-2 hover:blur-[2px] hover:cursor-pointer" 
                 loading="lazy"
+                onClick={() => handleSelectedSong(tracks)}
             />
             <div className="flex flex-col justify-around ml-2 overflow-hidden">
                 <Link 
-                to={`/artist/${tracks.artist_id}`} 
+                to={`/artist/${tracks?.artist_name}`} 
                 className="text-blue-600 hover:text-blue-950 text-sm font-medium truncate"
                 >
-                {tracks.artist_name}
+                {tracks?.artist_name}
                 </Link>
                 <span className="text-xs text-gray-700 truncate" title={tracks.name}>
                 {tracks.name}
