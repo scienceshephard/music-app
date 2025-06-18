@@ -6,19 +6,18 @@ import FavoriteIcon from '../../assets/images/heart-3-fill.svg';
 import MusicListIcon from '../../assets/images/booklet-fill.svg';
 import SettingsIcon from '../../assets/images/settings-5-fill.svg';
 import LogoutIcon from '../../assets/images/logout-box-line.svg';
+import { Grip, Heart, Settings, LogOut, LogOutIcon } from "lucide-react";
+
 
 export default function Navbar() {
   return (
     <nav className="container border-r-2 border-white p-[20px] flex flex-col gap-5 bg-[#FAFAFA] w-fit shadow-xl/30 bg-linear-to-bl from-[#384B35] to-[#2D3249] ">
-      <div className=" border-b-1 flex flex-col pb-[10px] border-gray-400">
-        <a href="/">
-          <img
-            src="/web_icon.svg"
-            alt=" Image Icon"
-            width={"40px"}
-          />
-        </a>
-      </div>
+      
+      <a href="/" className="flex justify-center border-b text-center pb-[10px] border-gray-400">
+        <Grip
+          fontSize={52}
+        />
+      </a>
         <NavLink to="account">
           <img src={ accountImage } alt="User Icon" />
         </NavLink>
@@ -45,15 +44,11 @@ export default function Navbar() {
         />
       </NavLink>
       <NavLink
-        to="favourite"
-        className={({ isActive }) =>
-          `p-2 rounded-md ${isActive ? "" : "bg-transparent"}`
-        }
-      >
-        <img
-          src={FavoriteIcon}
-          alt="Favourite songs"
-          width={"40px"}
+        to="favourite">
+        <Heart
+          width={42}
+          height={50}
+          className="text-gray-400 hover:text-gray-900"
         />
       </NavLink>
       <NavLink
@@ -64,10 +59,18 @@ export default function Navbar() {
       </NavLink>
       <div className="mt-auto flex flex-col gap-5">
         <NavLink to="settings">
-          <img src={SettingsIcon} alt="settings" width={"40px"} />
+          <Settings
+          width={42}
+          height={50}
+          className="text-gray-400 hover:text-gray-900"
+        />
         </NavLink>
         <NavLink to="log-out">
-          <img src={ LogoutIcon } alt="logout" width={"40px"} />
+          <LogOutIcon
+          width={42}
+          height={50}
+          className="text-gray-400 hover:text-gray-900"
+        />
         </NavLink>
       </div>
     </nav>

@@ -11,6 +11,7 @@ import Playlist from './components/trackList/Playlist'
 import { SignUp } from './pages/sign-up/Sign-Up'
 import { Login } from './pages/login/Login'
 import { NotFound } from './pages/404/404'
+import { Settings } from 'lucide-react'
 function App() {
   
   //Navigateion states
@@ -53,6 +54,7 @@ useEffect(() => {
             <Route path='playlist/:name' element={<Playlist/>} />
             <Route path='/favourite' element={<Favourite />} />
             <Route path='account' element= {<Account />} />
+            <Route path='settings' element={ <Settings/> } />
           </Route>
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/login' element={<Login />} />
