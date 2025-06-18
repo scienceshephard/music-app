@@ -9,7 +9,7 @@ import LogoutIcon from '../../assets/images/logout-box-line.svg';
 
 export default function Navbar() {
   return (
-    <nav className="container border-r-2 border-white p-[20px] flex flex-col gap-5 bg-[#FAFAFA] w-fit shadow-xl/30 ">
+    <nav className="container border-r-2 border-white p-[20px] flex flex-col gap-5 bg-[#FAFAFA] w-fit shadow-xl/30 bg-linear-to-bl from-[#384B35] to-[#2D3249] ">
       <div className=" border-b-1 flex flex-col pb-[10px] border-gray-400">
         <a href="/">
           <img

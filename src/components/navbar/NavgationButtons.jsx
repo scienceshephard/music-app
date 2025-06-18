@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router'
-import { MyContext } from '../../Context'
 import { useSearch } from '../../hooks/useSearch'
+import { ChevronLeft, ChevronLeftCircle, ChevronRight, ChevronRightCircle } from 'lucide-react'
+
 
 const NavgationButtons = () => {
     const navigate = useNavigate()
@@ -61,18 +62,22 @@ const NavgationButtons = () => {
   const { searchData} = useSearch(query, pageNumber)
     return (
         <div className='flex justify-between items-center mb-4'>
-        <button className='border rounded-4xl p-2 bg-green-500 text-white hover:bg-green-950 disabled:cursor-not-allowed disabled:hover:bg-green-500' onClick={ goBack } disabled={history.length <= 1}>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
+        <button title='Go back'
+        onClick={goBack}
+        disabled={history.length <= 1}
+        className="group p-2 rounded-full disabled:cursor-not-allowed bg-green-500 disabled:bg-transparent hover:bg-green-600 transition"
+        >
+            <ChevronLeft className="text-white group-disabled:text-gray-400" size={22} />
         </button>
-        {
-        (<button className='border rounded-4xl p-2 bg-green-500 text-white hover:bg-green-950 disabled:cursor-not-allowed disabled:hover:bg-green-500' onClick={ goForward } disabled={ forward.length === 0 }>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-        </button>)
-        }
+        
+        <button
+        title='Go forward'
+        className="group p-2 rounded-full disabled:cursor-not-allowed bg-green-500 disabled:bg-transparent hover:bg-green-600 transition" 
+        onClick={ goForward } 
+        disabled={ forward.length === 0 }>
+            <ChevronRight className="text-white group-disabled:text-gray-400" size={22} />
+        </button>
+        
         <div className='rounded-2xl inline-flex  bg-green-200 p-3 text-xl'>
             <label htmlFor="search">Search</label>
             <input type="search" onChange={handleSearch} id="search" className="outline-none " />
