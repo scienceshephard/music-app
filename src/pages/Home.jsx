@@ -9,10 +9,10 @@ import SideMusicPlayer from '../components/side_music_player/SideMusicPlayer'
 const Home = () => {
   
   return (
-    <div className="w-screen h-screen flex justify-between lg:flex-col sm:flex-row">
-        <div className='flex border h-full'>
+    <div className="w-screen h-screen flex lg:flex-col">
+        <div className='flex h-full'>
           <Navbar />
-          <div className='flex flex-col flex-1/3  p-[20px]'>
+          <div className='w-[40%] p-[20px]'>
               <NavgationButtons />
               {/* {i} */}
               <Outlet />

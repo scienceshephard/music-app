@@ -2,30 +2,40 @@ import { useState, useRef, useEffect, useContext } from "react";
 import { TopChart } from '../../components/Top-Chart/TopChart';
 import useFetch from "../../hooks/useFetchMusic";
 import { MyContext } from "../../Context";
+import { FeedsComponent } from "./FeedsComponent";
 
 function Feeds() {
   const sliderRef = useRef(null);
   const trackListRef = useRef(null);
 
-  const list = { albums: "albums", artists: "artists", tracks: "tracks", playlists: "playlists" };
-  const [albumOffset, setAlbumOffset] = useState(Math.floor(Math.random() * 1000));
-  const [trackOffset, setTrackOffset] = useState(Math.floor(Math.random() * 1000));
+  const list = { albums: "albums", artists: "artists", feeds: "feeds", tracks: "tracks", playlists: "playlists" };
+  const [offset, setOffset] = useState(Math.floor(Math.random() * 1000));
 
   const albumUrl = `${list.albums}`;
   const trackUrl = `${list.tracks}`;
+  const feedsUrl = `${list.feeds}`;
 
   const {
     fetchedData: tracks,
     isloading: loadingTrack,
     hasMore: moreTracks
-  } = useFetch(trackUrl, trackOffset);
+  } = useFetch(trackUrl, offset);
 
   const {
     error,
     isloading: loadingAlbums,
     fetchedData: albums,
     hasMore: moreAlbums
-  } = useFetch(albumUrl, albumOffset);
+  } = useFetch(albumUrl, offset);
+
+  const {
+    error: feedsError,
+    isloading: offsetLoading,
+    fetchedData: feeds,
+    hasMore: moreFeeds
+  } = useFetch(feedsUrl, offset)
+
+
 
   const { allAlbums, setAllAlbums, allTracks, setAllTracks } = useContext(MyContext);
 
@@ -57,7 +67,7 @@ function Feeds() {
         moreAlbums &&
         !loadingAlbums
       ) {
-        setAlbumOffset(prev => prev + 10);
+        setOffset(prev => prev + 10);
       }
     };
 
@@ -75,7 +85,7 @@ function Feeds() {
         moreTracks &&
         !loadingTrack
       ) {
-        setTrackOffset(prev => prev + 10);
+        setOffset(prev => prev + 10);
       }
     };
 
@@ -84,7 +94,7 @@ function Feeds() {
   }, [moreTracks, loadingTrack]);
 
   return (
-    <div className='flex flex-col flex-1/3'>
+    <div className=''>
       <h1 className="border-l-1 border-solid border-white text-4xl font-semibold">
         Discover <br /> New music
       </h1>
@@ -97,6 +107,14 @@ function Feeds() {
         loadingTrack={loadingTrack}
         error={error}
       />
+
+    <FeedsComponent  
+      feedsError ={feedsError}
+      offsetLoading ={offsetLoading}
+      feeds = {feeds}
+      moreFeeds= {moreFeeds}
+    />
+   
     </div>
   );
 }

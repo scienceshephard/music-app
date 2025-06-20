@@ -11,7 +11,7 @@ import Playlist from './components/trackList/Playlist'
 import { SignUp } from './pages/sign-up/Sign-Up'
 import { Login } from './pages/login/Login'
 import { NotFound } from './pages/404/404'
-import { Settings } from 'lucide-react'
+import { Settings } from './pages/settings/Settings'
 function App() {
   
   //Navigateion states

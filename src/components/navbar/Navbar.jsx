@@ -2,16 +2,13 @@ import { NavLink } from "react-router-dom";
 import accountImage from '../../assets/images/account-pin-circle-fill.svg';
 import compassImage from '../../assets/images/compass.svg';
 import MusicIcon from '../../assets/images/headphone-fill.svg';
-import FavoriteIcon from '../../assets/images/heart-3-fill.svg';
 import MusicListIcon from '../../assets/images/booklet-fill.svg';
-import SettingsIcon from '../../assets/images/settings-5-fill.svg';
-import LogoutIcon from '../../assets/images/logout-box-line.svg';
 import { Grip, Heart, Settings, LogOut, LogOutIcon } from "lucide-react";
 
 
 export default function Navbar() {
   return (
-    <nav className="container border-r-2 border-white p-[20px] flex flex-col gap-5 bg-[#FAFAFA] w-fit shadow-xl/30 bg-linear-to-bl from-[#384B35] to-[#2D3249] ">
+    <nav className=" grow-0 p-[20px] flex flex-col gap-5 bg-[#FAFAFA] w-fit shadow-xl/30 bg-linear-to-bl from-[#384B35] to-[#2D3249] ">
       
       <a href="/" className="flex justify-center border-b text-center pb-[10px] border-gray-400">
         <Grip

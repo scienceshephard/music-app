@@ -4,14 +4,6 @@ import { MyContext } from '../../Context';
 
 export const Track_Card = ({ tracks }) => {
 
-  // format track duration
-  const formatTrackDuration = (seconds) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-      return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-  }
-
-
     //Selected song
     const { setSelectedSong ,setAlbumloading, currentSongIndex } = useContext(MyContext);
     const handleSelectedSong = (item) => {
@@ -24,11 +16,11 @@ export const Track_Card = ({ tracks }) => {
     }
 
 return (
-        <div key={tracks.id} className="flex bg-gray-200 hover:bg-gray-400 rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow w-full">
+        <div key={tracks.id} className="flex flex-col bg-gray-200 hover:bg-gray-400 rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow min-w-[110px] max-w-[110px]">
             <img 
                 src={tracks.image} 
                 alt={`${tracks.name} album cover`} 
-                className="w-24 h-24 object-cover rounded-md mb-2 hover:blur-[2px] hover:cursor-pointer" 
+                className="w-28 h-28 object-cover rounded-md mb-2 hover:blur-[2px] hover:cursor-pointer" 
                 loading="lazy"
                 onClick={() => handleSelectedSong(tracks)}
             />
@@ -43,9 +35,6 @@ return (
                 {tracks.name}
                 </span>
             </div>
-            <span className="text-sm text-gray-700 ml-auto self-center">
-                {formatTrackDuration(tracks.duration)}
-            </span>
         </div>
   )
 }
