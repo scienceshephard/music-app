@@ -14,7 +14,7 @@ export const TopChart = ({
     <div className="p-4">
       <p className="text-lg font-semibold mb-4">Top-chart</p>
 
-      {error && <div className="my-auto text-red-500"> {error} </div>}
+      {error && <div className="my-auto text-red-500"> {error}</div>}
 
       <div>
         <div
@@ -43,7 +43,7 @@ export const TopChart = ({
                 </div>
               )}
         </div>
-        <h1 className="font-medium text-2xl">You may also like</h1>
+        <h1 className="font-medium text-3xl">You may also like</h1>
         <div
           className="flex gap-5 mt-4 pb-4  overflow-x-auto scroll-smooth"
           ref={trackListRef}

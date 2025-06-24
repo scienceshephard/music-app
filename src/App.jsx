@@ -7,11 +7,12 @@ import { Account } from './pages/account/Account'
 import { ArtistInfo } from './components/artist/ArtistInfo'
 import { MyContext } from './Context'
 import { useEffect, useRef, useState } from 'react'
-import Playlist from './components/trackList/Playlist'
 import { SignUp } from './pages/sign-up/Sign-Up'
 import { Login } from './pages/login/Login'
 import { NotFound } from './pages/404/404'
 import { Settings } from './pages/settings/Settings'
+import { FeedsInfoPage} from './pages/feeds/FeedsPage'
+import { Playlist } from './pages/trackList/Playlist'
 function App() {
   
   //Navigateion states
@@ -20,7 +21,8 @@ function App() {
   //Data states
   const [allAlbums, setAllAlbums] = useState([]);
   const [allTracks, setAllTracks] = useState([]);
-  
+  const [allFeeds, setAllFeeds] = useState([])
+
   //search qeury data
   const [ searchData, setSearchData ] =useState([])
   
@@ -46,7 +48,7 @@ useEffect(() => {
 
 
   return (
-    <MyContext.Provider value={{ currentTime, setCurrentTime, duration, setDuration, audioRef, currentSongIndex, setCurrentSongIndex, selectedSong, setSelectedSong, albumloading, setAlbumloading, origin, setOrigin, allAlbums, setAllAlbums, allTracks, setAllTracks, searchData, setSearchData, songList, setSongList, isPlaying, setIsPlaying, displayAudioPlayer, setDisplayAudioPlayer }}>
+    <MyContext.Provider value={{ currentTime, allFeeds, setAllFeeds, setCurrentTime, duration, setDuration, audioRef, currentSongIndex, setCurrentSongIndex, selectedSong, setSelectedSong, albumloading, setAlbumloading, origin, setOrigin, allAlbums, setAllAlbums, allTracks, setAllTracks, searchData, setSearchData, songList, setSongList, isPlaying, setIsPlaying, displayAudioPlayer, setDisplayAudioPlayer }}>
       <Routes >
           <Route path='/'element={<Home />}>
             <Route index element={<Feeds />} />
@@ -55,6 +57,7 @@ useEffect(() => {
             <Route path='/favourite' element={<Favourite />} />
             <Route path='account' element= {<Account />} />
             <Route path='settings' element={ <Settings/> } />
+            <Route path='feed/:id' element ={ <FeedsInfoPage /> } />
           </Route>
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/login' element={<Login />} />

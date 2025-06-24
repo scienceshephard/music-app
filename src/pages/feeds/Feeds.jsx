@@ -7,13 +7,19 @@ import { FeedsComponent } from "./FeedsComponent";
 function Feeds() {
   const sliderRef = useRef(null);
   const trackListRef = useRef(null);
-
+  const feedsOff = useRef(Math.floor(Math.random() * 100))
   const list = { albums: "albums", artists: "artists", feeds: "feeds", tracks: "tracks", playlists: "playlists" };
   const [offset, setOffset] = useState(Math.floor(Math.random() * 1000));
 
   const albumUrl = `${list.albums}`;
   const trackUrl = `${list.tracks}`;
   const feedsUrl = `${list.feeds}`;
+
+  const {
+    error: feedsError,
+    isloading: offsetLoading,
+    fetchedData: feeds,
+  } = useFetch(feedsUrl, feedsOff.current);
 
   const {
     fetchedData: tracks,
@@ -28,16 +34,7 @@ function Feeds() {
     hasMore: moreAlbums
   } = useFetch(albumUrl, offset);
 
-  const {
-    error: feedsError,
-    isloading: offsetLoading,
-    fetchedData: feeds,
-    hasMore: moreFeeds
-  } = useFetch(feedsUrl, offset)
-
-
-
-  const { allAlbums, setAllAlbums, allTracks, setAllTracks } = useContext(MyContext);
+  const { allAlbums, setAllAlbums, allTracks, setAllTracks, allFeeds, setAllFeeds } = useContext(MyContext);
 
   useEffect(() => {
     if (albums?.length > 0) {
@@ -46,16 +43,21 @@ function Feeds() {
         return [...prev, ...newAlbums];
       });
     }
-  }, [albums]);
-
-  useEffect(() => {
     if (tracks?.length > 0) {
       setAllTracks(prev => {
         const newTracks = tracks.filter(track => !prev.some(t => t.id === track.id));
         return [...prev, ...newTracks];
       });
     }
-  }, [tracks]);
+    if(feeds?.length >0){
+      setAllFeeds(prev =>{
+        const newFeeds = feeds.filter(feed => !prev.some(t => t.id === feed.id));
+        return [...prev, ...newFeeds];
+      })
+    }
+  }, [albums, tracks, feeds]);
+  
+
 
   useEffect(() => {
     const slide = sliderRef.current;
@@ -93,9 +95,27 @@ function Feeds() {
     return () => trackDiv.removeEventListener("scroll", handleScroll);
   }, [moreTracks, loadingTrack]);
 
+  useEffect(() => {
+    const feedDiv = sliderRef.current;
+    if (!feedDiv) return;
+
+    const handleScroll = () => {
+      if (
+        feedDiv.scrollTop + feedDiv.clientHeight >= feedDiv.scrollHeight - 20 &&
+        moreTracks &&
+        !loadingTrack
+      ) {
+        setOffset(prev => prev + 10);
+      }
+    };
+
+    feedDiv.addEventListener("scroll", handleScroll);
+    return () => feedDiv.removeEventListener("scroll", handleScroll);
+  }, [moreTracks, loadingTrack]);
+
   return (
-    <div className=''>
-      <h1 className="border-l-1 border-solid border-white text-4xl font-semibold">
+    <div className="overclow-auto scroll-smoothborder">
+      <h1 className="border-l-1 border-solid border-white text-3xl font-semibold">
         Discover <br /> New music
       </h1>
       <TopChart
@@ -107,13 +127,14 @@ function Feeds() {
         loadingTrack={loadingTrack}
         error={error}
       />
-
-    <FeedsComponent  
-      feedsError ={feedsError}
-      offsetLoading ={offsetLoading}
-      feeds = {feeds}
-      moreFeeds= {moreFeeds}
-    />
+      <h1 className="text-3xl font-semibold">Latest music gist</h1>
+      <>
+        <FeedsComponent
+          feedsError ={feedsError}
+          offsetLoading ={offsetLoading}
+          feeds = {allFeeds}
+        />
+      </>
    
     </div>
   );
