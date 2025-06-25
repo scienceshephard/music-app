@@ -16,7 +16,6 @@ export const FeedsInfoPage = () => {
               },
             })
             setFeedDetails(res.data.results)
-            console.log(res.data.results);
           } catch (error) {
             console.error('Error while fetching the tracks', error)
           }

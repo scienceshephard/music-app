@@ -20,7 +20,6 @@ const useFetch = (url, offset) => {
         format: 'jsonpretty',
         limit: 10,
         offset: offset
-
       },
       cancelToken: new axios.CancelToken(c => cancel = c)
     })
