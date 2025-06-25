@@ -51,7 +51,7 @@ export const TopChart = ({
         >
           {allTracks.length > 0
             ? allTracks.map((item) => (
-                <Track_Card key={item.id} tracks={item} />
+                <Track_Card key={item.id} scrollContainer={trackListRef} tracks={item} />
               ))
             : !loadingTrack && <div>Error: {error}</div>}
           {loadingTrack && allTracks.length === 0 && (

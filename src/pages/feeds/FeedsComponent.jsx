@@ -25,7 +25,7 @@ export const FeedsComponent = ({
         feeds.length > 0?
         feeds.map((feed) =>{
         return(
-            <div className=' min-w-[300px] min-h-fit ' key={feed.id}>
+            <div className='shadow-xl p-2.5 bg-gray-100 rounded-lg min-w-[300px] min-h-fit ' key={feed.id}>
                 <h3 className="font-bold text-lg mb-2">
                     {feed?.title?.en || feed?.title?.fr || Object.values(feed?.title || {})[0] || 'No title'}
                 </h3>

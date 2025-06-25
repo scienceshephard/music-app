@@ -1,69 +1,111 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router';
 import { MyContext } from '../../Context';
-import { EllipsisVertical } from 'lucide-react';
+import { Ellipsis } from 'lucide-react';
 
-export const Track_Card = ({ tracks }) => {
-    const { setSelectedSong, setAlbumloading, currentSongIndex } = useContext(MyContext);
-    const [showMenu, setShowMenu] = useState(false);
+let globalDropdownCloser = () => {};
 
-    const handleSelectedSong = (item) => {
-      setTimeout(() => {
-        setAlbumloading(false)
-        setSelectedSong([item])
-        currentSongIndex(0)
-      }, 500);
+export const Track_Card = ({ tracks, scrollContainer }) => {
+  const { setSelectedSong, setAlbumloading, currentSongIndex } = useContext(MyContext);
+  const [isOpen, setIsOpen] = useState(false);
+  const buttonRef = useRef(null);
+  const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
+
+  const updateMenuPosition = () => {
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setMenuPosition({
+        top: rect.bottom + window.scrollY,
+        left: rect.left + window.scrollX
+      });
     }
+  };
 
-    const handleMenuToggle = (e) => {
-      e.stopPropagation();
-      setShowMenu((prev) => !prev);
-    };
+  const openDropdown = () => {
+    globalDropdownCloser();
+    globalDropdownCloser = () => setIsOpen(false);
 
-    // Optional: Hide menu when clicking outside
-    React.useEffect(() => {
-      const handleClickOutside = () => setShowMenu(false);
-      if (showMenu) {
-        document.addEventListener('click', handleClickOutside);
-      }
-      return () => document.removeEventListener('click', handleClickOutside);
-    }, [showMenu]);
+    updateMenuPosition();
+    setIsOpen(true);
 
-    return (
-        <div key={tracks.id} className="flex flex-col bg-gray-200 hover:bg-gray-400 rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow min-w-[110px] max-w-[110px]">
-            <img 
-                src={tracks.image} 
-                alt={`${tracks.name} album cover`} 
-                className="w-28 h-28 object-cover rounded-md mb-2 hover:blur-[2px] hover:cursor-pointer" 
-                loading="lazy"
-                onClick={() => handleSelectedSong(tracks)}
-            />
-                <div className="relative  w-fit inline-flex">
-                  <button
-                    className="cursor-pointer hover:text-gray-700 text-green-800"
-                    onClick={handleMenuToggle}
-                    type="button"
-                  >
-                    <EllipsisVertical fontSize={18} />
-                  </button>
-                  {showMenu && (
-                    <div className="absolute left-0 top-full mt-1 min-w-[100px] bg-white border border-gray-300 rounded shadow-lg p-2 z-[999]">
-                      <a href="#" className="px-1.5 block text-[13px]">Add</a>
-                      <a href="#" className="py-1.5 block text-[13px]">Sub</a>
-                    </div>
-                  )}
-                </div>
-            <div className="flex flex-col justify-around ml-2 ">
-                <Link 
-                  to={`/artist/${tracks?.artist_name}`} 
-                  className="text-blue-600 hover:text-blue-950 text-sm font-medium truncate"
-                >
-                  {tracks?.artist_name}
-                </Link>
-                <span className="text-xs text-gray-700 truncate" title={tracks.name}>
-                  {tracks.name}
-                </span>
-            </div>
+    // Listen to horizontal scroll on the container
+    scrollContainer?.current?.addEventListener('scroll', updateMenuPosition);
+    window.addEventListener('resize', updateMenuPosition);
+  };
+
+  const closeDropdown = () => {
+    setIsOpen(false);
+    scrollContainer?.current?.removeEventListener('scroll', updateMenuPosition);
+    window.removeEventListener('resize', updateMenuPosition);
+  };
+
+  const toggleDropdown = (e) => {
+    e.stopPropagation();
+    isOpen ? closeDropdown() : openDropdown();
+  };
+
+  useEffect(() => {
+    const handleClickOutside = () => closeDropdown();
+    if (isOpen) document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [isOpen]);
+
+  const handleSelectedSong = (item) => {
+    setTimeout(() => {
+      setAlbumloading(false);
+      setSelectedSong([item]);
+      currentSongIndex(0);
+    }, 500);
+  };
+
+  return (
+    <>
+      <div className="flex flex-col bg-gray-200 hover:bg-gray-400 rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow min-w-[110px] max-w-[110px]">
+        <button
+          ref={buttonRef}
+          className="cursor-pointer hover:text-gray-700 text-green-800 self-end"
+          onClick={toggleDropdown}
+          type="button"
+        >
+          <Ellipsis fontSize={18} />
+        </button>
+        <img
+          src={tracks.image}
+          alt={`${tracks.name} album cover`}
+          className="w-28 h-28 object-cover rounded-md mb-2 hover:blur-[2px] hover:cursor-pointer"
+          loading="lazy"
+          onClick={() => handleSelectedSong(tracks)}
+        />
+        <div className="flex flex-col justify-around ml-2">
+          <Link
+            to={`/artist/${tracks?.artist_name}`}
+            className="text-blue-600 hover:text-blue-950 text-sm font-medium truncate"
+          >
+            {tracks?.artist_name}
+          </Link>
+          <span className="text-xs text-gray-700 truncate" title={tracks.name}>
+            {tracks.name}
+          </span>
         </div>
-    )
-}
+      </div>
+
+      {isOpen &&
+        createPortal(
+          <div
+            className="bg-white border border-gray-300 rounded shadow-lg z-[9999] w-fit"
+            style={{
+              position: 'absolute',
+              top: `${menuPosition.top}px`,
+              left: `${menuPosition.left}px`,
+            }}
+          >
+            <span className="p-2.5 block text-sm hover:bg-gray-200">Add to favourite</span>
+            <span className="p-2.5 block text-sm hover:bg-gray-200">Add to queue</span>
+            <span className="p-2.5 block text-sm hover:bg-gray-200">Share</span>
+          </div>,
+          document.getElementById('dropdown-root')
+        )}
+    </>
+  );
+};
