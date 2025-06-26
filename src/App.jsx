@@ -40,7 +40,7 @@ useEffect(() => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const audioRef = useRef(null);
-
+  const [showMobileMusicPlayer, setShowMobileMusicPlayer] = useState(false);
   const [ songList, setSongList ] = useState([])
 
   //Animation states
@@ -48,7 +48,7 @@ useEffect(() => {
 
 
   return (
-    <MyContext.Provider value={{ currentTime, allFeeds, setAllFeeds, setCurrentTime, duration, setDuration, audioRef, currentSongIndex, setCurrentSongIndex, selectedSong, setSelectedSong, albumloading, setAlbumloading, origin, setOrigin, allAlbums, setAllAlbums, allTracks, setAllTracks, searchData, setSearchData, songList, setSongList, isPlaying, setIsPlaying, displayAudioPlayer, setDisplayAudioPlayer }}>
+    <MyContext.Provider value={{ currentTime, allFeeds, showMobileMusicPlayer, setShowMobileMusicPlayer, setAllFeeds, setCurrentTime, duration, setDuration, audioRef, currentSongIndex, setCurrentSongIndex, selectedSong, setSelectedSong, albumloading, setAlbumloading, origin, setOrigin, allAlbums, setAllAlbums, allTracks, setAllTracks, searchData, setSearchData, songList, setSongList, isPlaying, setIsPlaying, displayAudioPlayer, setDisplayAudioPlayer }}>
       <Routes >
           <Route path='/'element={<Home />}>
             <Route index element={<Feeds />} />

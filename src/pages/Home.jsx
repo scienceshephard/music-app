@@ -1,18 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Navbar from '../components/navbar/Navbar'
 import Music_Player from '../components/musicplayer/Music_Player'
 import { Outlet } from 'react-router'
 import NavgationButtons from '../components/navbar/NavgationButtons'
-import SideMusicPlayer from '../components/side_music_player/SideMusicPlayer'
 import { Playlist } from './trackList/Playlist'
 import { Mobile_Music_Player } from '../components/musicplayer/Mobile_Music_Player'
+import Mobile_Navbar from '../components/navbar/Mobile_Navbar'
+import { MyContext } from '../Context'
+import { ArrowUp, ArrowDown } from 'lucide-react'
 
 const Home = () => {
-  
+  const {showMobileMusicPlayer, selectedSong, setShowMobileMusicPlayer,} =useContext(MyContext);
   return (
-    <div className="w-screen h-screen sm:pb-[90px] lg:pb-0 flex flex-col">
+    <div className="lg:pb-0">
         {/* Desktop design */}
-        <div className='flex h-full'>
+        <div className='lg:flex w-screen h-screen hidden'>
           <Navbar />
           <div className='w-[40%] overflow-y-auto scroll-smoothborder p-[20px]'>
               <NavgationButtons />
@@ -22,12 +24,23 @@ const Home = () => {
           <Music_Player />
           <Playlist />
         </div>
-        {/* Mobile design */}
-        {/* <div className='hidden lg:flex w-full h-[60px] bg-[#FAFAFA] shadow-xl/30 bg-linear-to-bl from-[#384B35] to-[#2D3249]'>
-          <NavgationButtons />
-        </div> */}
-        <Mobile_Music_Player />
-        <SideMusicPlayer />
+        {/* Mobile Design */}
+        <div className='pb-30 lg:hidden flex'>
+          <div className='flex flex-col overflow-y-auto scroll-smoothborder'>
+            <Outlet />
+          </div>
+
+          <footer className='bottom-0 flex flex-col left-0 fixed w-full'>
+          <button className='border rounded-2xl  p-2 bg-green-900 absolute top-[-15px] w-fit text-white '>
+            {showMobileMusicPlayer? <ArrowDown onClick={()=> setShowMobileMusicPlayer(!showMobileMusicPlayer)} /> : <ArrowUp onClick={()=> setShowMobileMusicPlayer(!showMobileMusicPlayer)}/>}
+          </button>
+            {!showMobileMusicPlayer && <Mobile_Music_Player />}
+            
+            {showMobileMusicPlayer && selectedSong && <Music_Player />}
+            <Mobile_Navbar />
+          </footer>
+        </div>
+
     </div>
   )
 }

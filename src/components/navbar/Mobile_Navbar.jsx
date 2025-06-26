@@ -2,16 +2,16 @@ import { Grip, Headphones, Heart, Settings, ListMusic } from 'lucide-react'
 import React from 'react'
 import { NavLink } from 'react-router'
 
-const SideMusicPlayer = () => {
+const Mobile_Navbar = () => {
   return (
-    <div className='fixed shadow-xl/30 bg-linear-to-bl from-[#384B35] to-[#2D3249] bottom-0 left-0 w-full justify-between mt-auto py-3 px-4 lg:hidden sm:flex'>
+    <div className='shadow-xl/30 bg-linear-to-bl from-[#384B35] to-[#2D3249] justify-between mt-auto py-3 px-4 lg:hidden flex'>
       <button className="p-2 border-red border rounded-md">
         <Headphones
           fontSize={52}
         />
       </button>
-      <NavLink
-        to="music"
+      <a
+        href="/"
         className={({ isActive }) =>
           `p-2 rounded-md ${isActive ? "bg-green-700" : "bg-transparent"}`
         }
@@ -19,9 +19,9 @@ const SideMusicPlayer = () => {
         <Grip
           fontSize={52}
         />
-      </NavLink>
+      </a>
       <NavLink
-        to="music"
+        to="favorite"
         className={({ isActive }) =>
           `p-2 rounded-md ${isActive ? "bg-green-700" : "bg-transparent"}`
         }
@@ -31,7 +31,7 @@ const SideMusicPlayer = () => {
         />
       </NavLink>
       <NavLink
-        to="music"
+        to="settings"
         className={({ isActive }) =>
           `p-2 rounded-md ${isActive ? "bg-green-700" : "bg-transparent"}`
         }
@@ -44,4 +44,4 @@ const SideMusicPlayer = () => {
   )
 }
 
-export default SideMusicPlayer
+export default Mobile_Navbar

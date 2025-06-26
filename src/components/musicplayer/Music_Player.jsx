@@ -65,21 +65,21 @@ export default function Music_Player() {
   }, [currentSongIndex, isPlaying])
 
   return (
-    <div className='bg-[#FAFAFA] text-center border-1 border-solid p-[20px] border-gray-300 flex-1/2'>
+    <div className='bg-[#FAFAFA] text-center border-2 p-[20px] border-gray-300 flex-1/2'>
         {/*Loading animation */}
       {
         albumloading &&
-        <div className='space-y-2.5'>
+        <div className='space-y-2.5 border'>
           <div className='w-40 h-8 animate-pulse bg-gray-300 mx-auto'></div>
-        <div className='h-[300px] w-[300px]  rounded-2xl animate-pulse bg-gray-300 mx-auto'></div>
-          <div className='w-1/2 mx-auto  flex items-center justify-between'>
-            <Shuffle size='32' className='animate-pulse'  color='grey' />
-              <div className='flex flex-col gap-3 items-center'>
-                  <span className='h-5 animate-pulse bg-gray-400 w-30'></span>
-                  <span className='h-5 animate-pulse bg-gray-400 w-25'></span>
-              </div>
-            <Repeat size='32' className='animate-pulse' color='grey' />
-          </div>
+          <div className='h-[300px] w-[300px]  rounded-2xl animate-pulse bg-gray-300 mx-auto'></div>
+            <div className='w-1/2 mx-auto  flex items-center justify-between'>
+              <Shuffle size='32' className='animate-pulse'  color='grey' />
+                <div className='flex flex-col gap-3 items-center'>
+                    <span className='h-5 animate-pulse bg-gray-400 w-30'></span>
+                    <span className='h-5 animate-pulse bg-gray-400 w-25'></span>
+                </div>
+              <Repeat size='32' className='animate-pulse' color='grey' />
+            </div>
         </div>
       }
       {!albumloading &&
