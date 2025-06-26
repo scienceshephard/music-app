@@ -3,7 +3,7 @@ import { MyContext } from '../../Context';
 import { Pause, Play, SkipBack, SkipForward, Repeat, Shuffle, } from 'lucide-react';
 import Music_Player from './Music_Player';
 export const Mobile_Music_Player = () => {
-  const{ selectedSong} = useContext(MyContext);
+  const{ selectedSong, albumloading} = useContext(MyContext);
   
   return (
     <div className='lg:hidden flex inset-shadow-green-900/50 inset-shadow-sm flex-col p-3'>
@@ -14,7 +14,7 @@ export const Mobile_Music_Player = () => {
             <div className='w-20 h-15 rounded-2xl bg-gray-500'></div>
         </div>
     }
-    { !selectedSong &&
+    { !albumloading &&
         <div className=' border hidden sm:block w-full'>
             <img
             src={selectedSong?.image || 'https://via.placeholder.com/50'}

@@ -10,7 +10,7 @@ import { MyContext } from '../Context'
 import { ArrowUp, ArrowDown } from 'lucide-react'
 
 const Home = () => {
-  const {showMobileMusicPlayer, selectedSong, setShowMobileMusicPlayer,} =useContext(MyContext);
+  const {showMobileMusicPlayer, selectedSong} =useContext(MyContext);
   return (
     <div className="lg:pb-0">
         {/* Desktop design */}
@@ -25,19 +25,17 @@ const Home = () => {
           <Playlist />
         </div>
         {/* Mobile Design */}
-        <div className='lg:hidden flex flex-col min-h-screen'>
+        <div className='lg:hidden flex flex-col min-h-dvh'>
           {!showMobileMusicPlayer && 
           <div className='flex flex-1 flex-col overflow-y-auto scroll-smoothborder'>
             <Outlet />
           </div>}
             {showMobileMusicPlayer && selectedSong &&
-             <div className='flex flex-1 flex-col'><Music_Player /></div>
+             <div className='flex flex-1 flex-col'>
+                <Music_Player />
+              </div>
              }
-            
           <footer className='bottom-0 flex flex-col sticky z-10 w-full'>
-          {!showMobileMusicPlayer && <button className='border  p-2 bg-green-900 absolute left-[-10px] top-[-15px] w-fit text-white '>
-            <ArrowUp onClick={()=> setShowMobileMusicPlayer(true)}/>
-          </button>}
             {!showMobileMusicPlayer && <Mobile_Music_Player />}
             <Mobile_Navbar />
           </footer>

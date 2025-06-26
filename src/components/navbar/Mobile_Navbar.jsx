@@ -1,17 +1,21 @@
 import { Grip, Headphones, Heart, Settings, ListMusic } from 'lucide-react'
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavLink } from 'react-router'
+import { MyContext } from '../../Context';
 
 const Mobile_Navbar = () => {
+
+  const {setShowMobileMusicPlayer, showMobileMusicPlayer} = useContext(MyContext);
+
   return (
     <div className='shadow-xl/30 bg-linear-to-bl from-[#384B35] to-[#2D3249] justify-between mt-auto py-3 px-4 lg:hidden flex'>
-      <button className="p-2 border-red border rounded-md">
+      <button className="p-2 focus:bg-green-700 rounded-md" onClick={()=> setShowMobileMusicPlayer(!showMobileMusicPlayer)}>
         <Headphones
           fontSize={52}
         />
       </button>
-      <a
-        href="/"
+      <NavLink
+        to="/"
         className={({ isActive }) =>
           `p-2 rounded-md ${isActive ? "bg-green-700" : "bg-transparent"}`
         }
@@ -19,7 +23,7 @@ const Mobile_Navbar = () => {
         <Grip
           fontSize={52}
         />
-      </a>
+      </NavLink>
       <NavLink
         to="library"
         className={({ isActive }) =>

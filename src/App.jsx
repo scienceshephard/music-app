@@ -47,8 +47,37 @@ useEffect(() => {
   const [albumloading, setAlbumloading]=useState(true)
 
 
+  const skipNext = () =>{
+    const nextIndex = (currentSongIndex + 1 ) % selectedSong.length;
+    setCurrentSongIndex(nextIndex);
+    setIsPlaying(true);
+    audioRef.current?.play().catch(err => console.error('Playback error: ', err));
+  }
+  const skipPrev = () =>{
+    const prevIndex = (currentSongIndex - 1 + selectedSong.length ) % selectedSong.length;
+    setCurrentSongIndex(prevIndex);
+    setIsPlaying(true);
+    audioRef.current?.play().catch(err => console.error('Playback error: ', err));
+  }
+  const togglePlay =() =>{
+    setIsPlaying(prev =>!prev);
+  }
+  const shuffle =(tracks) =>{
+    console.log(tracks);
+  }
+  const repeat =(tracks)=>{
+    console.log(tracks);
+  }
+  const handleSeek = (e) =>{
+    const audio = audioRef.current
+    if(!audio || duration === 0) return;
+    const percent = e.target.value;
+    const newTime = (percent / 100 ) * duration;
+    audio.currentTime = newTime;
+    setCurrentTime(newTime);
+  }
   return (
-    <MyContext.Provider value={{ currentTime, allFeeds, showMobileMusicPlayer, setShowMobileMusicPlayer, setAllFeeds, setCurrentTime, duration, setDuration, audioRef, currentSongIndex, setCurrentSongIndex, selectedSong, setSelectedSong, albumloading, setAlbumloading, origin, setOrigin, allAlbums, setAllAlbums, allTracks, setAllTracks, searchData, setSearchData, songList, setSongList, isPlaying, setIsPlaying, displayAudioPlayer, setDisplayAudioPlayer }}>
+    <MyContext.Provider value={{ togglePlay, handleSeek, shuffle, repeat, currentTime, skipPrev, skipNext, allFeeds, showMobileMusicPlayer, setShowMobileMusicPlayer, setAllFeeds, setCurrentTime, duration, setDuration, audioRef, currentSongIndex, setCurrentSongIndex, selectedSong, setSelectedSong, albumloading, setAlbumloading, origin, setOrigin, allAlbums, setAllAlbums, allTracks, setAllTracks, searchData, setSearchData, songList, setSongList, isPlaying, setIsPlaying, displayAudioPlayer, setDisplayAudioPlayer }}>
       <Routes >
           <Route path='/'element={<Home />}>
             <Route index element={<Feeds />} />

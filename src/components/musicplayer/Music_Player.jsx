@@ -7,38 +7,9 @@ import { Pause, Play, SkipBack, SkipForward, Repeat, Shuffle, ArrowDown } from '
 
 export default function Music_Player() {
   
-  const { currentTime, setCurrentTime, duration, setDuration, isPlaying, setIsPlaying, audioRef, currentSongIndex, setCurrentSongIndex, albumloading, selectedSong, showMobileMusicPlayer, setShowMobileMusicPlayer} = useContext(MyContext)
+  const { currentTime, setCurrentTime, duration, setDuration, isPlaying, togglePlay, handleSeek, shuffle, repeat, audioRef, currentSongIndex, skipPrev, skipNext, albumloading, selectedSong, showMobileMusicPlayer, setShowMobileMusicPlayer} = useContext(MyContext)
 
 
-  const togglePlay =() =>{
-    setIsPlaying(prev =>!prev);
-  }
-  const shuffle =(tracks) =>{
-    console.log(tracks);
-  }
-  const reapeat =(tracks)=>{
-    console.log(tracks);
-  }
-  const skipNext = () =>{
-    const nextIndex = (currentSongIndex + 1 ) % selectedSong.length;
-    setCurrentSongIndex(nextIndex);
-    setIsPlaying(true);
-    audioRef.current?.play().catch(err => console.error('Playback error: ', err));
-  }
-  const skipPrev = () =>{
-    const prevIndex = (currentSongIndex - 1 + selectedSong.length ) % selectedSong.length;
-    setCurrentSongIndex(prevIndex);
-    setIsPlaying(true);
-    audioRef.current?.play().catch(err => console.error('Playback error: ', err));
-  }
-  const handleSeek = (e) =>{
-    const audio = audioRef.current
-    if(!audio || duration === 0) return;
-    const percent = e.target.value;
-    const newTime = (percent / 100 ) * duration;
-    audio.currentTime = newTime;
-    setCurrentTime(newTime);
-  }
   useEffect(()=>{
     const audio = audioRef.current;
     if(!audio) return;
@@ -65,9 +36,9 @@ export default function Music_Player() {
   }, [currentSongIndex, isPlaying])
 
   return (
-    <div className='bg-[#FAFAFA] transition-all duration-10000 text-center mb-20 lg:mb-0 h-full flex-col border-2 p-[20px] border-gray-300 flex-1/2'>
+    <div className='bg-[#FAFAFA] transition-all duration-300 text-center mb-20 lg:mb-0 h-full flex-col border-2 p-[20px] border-gray-300 flex-1/2'>
         {/*Loading animation */}
-        {showMobileMusicPlayer &&  <button className='transition absolute left-[-10px] top-[-1px] p-2 bg-green-900  w-fit text-white '>
+        {showMobileMusicPlayer &&  <button className='transition shadow-sm shadow-green-900 absolute left-[-10px] top-[-1px] p-2 bg-green-900  w-fit text-white '>
             <ArrowDown onClick={()=> setShowMobileMusicPlayer(false)} />
           </button>
           }
@@ -100,7 +71,7 @@ export default function Music_Player() {
                   <span className='text-2xl font-medium'>{ selectedSong[currentSongIndex]?.name }</span>
                   <span>{ selectedSong[currentSongIndex]?.artist_name }</span>
               </div>
-            <Repeat onClick={()=> reapeat(selectedSong)} className='hover:cursor-pointer hover:text-[#498000] text-[#008000]' size='32' />
+            <Repeat onClick={()=> repeat(selectedSong)} className='hover:cursor-pointer hover:text-[#498000] text-[#008000]' size='32' />
             </div>
 
           <audio src={selectedSong[currentSongIndex]?.audio} ref={audioRef}  preload='metadata' />
