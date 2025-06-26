@@ -27,7 +27,7 @@ export default function Navbar() {
           className="text-gray-400 hover:text-gray-900"
           />
       </NavLink>
-      <NavLink to="favourite"
+      <NavLink to="library"
         className={({ isActive }) =>
           ` p-2 rounded-md ${isActive ? "bg-green-700" : "bg-transparent"}`
         }>

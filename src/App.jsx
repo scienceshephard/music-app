@@ -54,7 +54,7 @@ useEffect(() => {
             <Route index element={<Feeds />} />
             <Route path='/artist/:name' element={<ArtistInfo />} />
             <Route path='playlist/:name' element={<Playlist/>} />
-            <Route path='/favourite' element={<Favourite />} />
+            <Route path='/library' element={<Favourite />} />
             <Route path='account' element= {<Account />} />
             <Route path='settings' element={ <Settings/> } />
             <Route path='feed/:id' element ={ <FeedsInfoPage /> } />

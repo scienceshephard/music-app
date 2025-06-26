@@ -21,7 +21,7 @@ const Mobile_Navbar = () => {
         />
       </a>
       <NavLink
-        to="favorite"
+        to="library"
         className={({ isActive }) =>
           `p-2 rounded-md ${isActive ? "bg-green-700" : "bg-transparent"}`
         }

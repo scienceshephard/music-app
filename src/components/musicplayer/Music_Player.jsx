@@ -1,13 +1,13 @@
 
 import { useContext, useEffect } from 'react';
 import { MyContext } from '../../Context';
-import { Pause, Play, SkipBack, SkipForward, Repeat, Shuffle } from 'lucide-react';
+import { Pause, Play, SkipBack, SkipForward, Repeat, Shuffle, ArrowDown } from 'lucide-react';
 
 
 
 export default function Music_Player() {
   
-  const { currentTime, setCurrentTime, duration, setDuration, isPlaying, setIsPlaying, audioRef, currentSongIndex, setCurrentSongIndex, albumloading, selectedSong} = useContext(MyContext)
+  const { currentTime, setCurrentTime, duration, setDuration, isPlaying, setIsPlaying, audioRef, currentSongIndex, setCurrentSongIndex, albumloading, selectedSong, showMobileMusicPlayer, setShowMobileMusicPlayer} = useContext(MyContext)
 
 
   const togglePlay =() =>{
@@ -65,11 +65,15 @@ export default function Music_Player() {
   }, [currentSongIndex, isPlaying])
 
   return (
-    <div className='bg-[#FAFAFA] text-center mb-20 lg:mb-0 h-full flex-col border-2 p-[20px] border-gray-300 flex-1/2'>
+    <div className='bg-[#FAFAFA] transition-all duration-10000 text-center mb-20 lg:mb-0 h-full flex-col border-2 p-[20px] border-gray-300 flex-1/2'>
         {/*Loading animation */}
+        {showMobileMusicPlayer &&  <button className='transition absolute left-[-10px] top-[-1px] p-2 bg-green-900  w-fit text-white '>
+            <ArrowDown onClick={()=> setShowMobileMusicPlayer(false)} />
+          </button>
+          }
       {
         albumloading &&
-        <div className='space-y-2.5 h-full border animate-pulse'>
+        <div className='space-y-2.5 h-full animate-pulse'>
           <div className='w-1/3 h-8 bg-gray-300 mx-auto'></div>
           <div className='h-[300px] w-[50%]  rounded-2xl bg-gray-300 mx-auto'></div>
             <div className='w-1/2 mx-auto  flex items-center justify-between'>
@@ -82,8 +86,8 @@ export default function Music_Player() {
             </div>
         </div>
       }
-      {!albumloading &&
-      <div>
+      {!albumloading && 
+      <div className={`${showMobileMusicPlayer}? 'h-full flex flex-col justify-center`}>
         <h1 className='font-medium text-2xl'>Now Playing</h1>
         <div className='flex flex-col h-[300px] w-[300px] ml-auto mr-auto'>
           <div className='h-full'>
