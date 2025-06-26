@@ -114,9 +114,9 @@ function Feeds() {
   }, [moreTracks, loadingTrack]);
 
   return (
-    <div className="overclow-auto scroll-smoothborder">
-      <h1 className="border-l-1 border-solid border-white text-3xl font-semibold">
-        Discover <br /> New music
+    <div className="overflow-auto scroll-smoothborder">
+      <h1 className="border-l-1 lg:mt-0 mt-5 text-center lg:text-left border-solid border-white text-3xl font-semibold">
+        Discover New music
       </h1>
       <TopChart
         sliderRef={sliderRef}

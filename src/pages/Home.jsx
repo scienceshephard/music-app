@@ -25,17 +25,16 @@ const Home = () => {
           <Playlist />
         </div>
         {/* Mobile Design */}
-        <div className='pb-30 lg:hidden flex'>
-          <div className='flex flex-col overflow-y-auto scroll-smoothborder'>
+        <div className='lg:hidden flex flex-col min-h-screen'>
+          <div className='flex flex-1  flex-col overflow-y-auto scroll-smoothborder'>
             <Outlet />
           </div>
 
-          <footer className='bottom-0 flex flex-col left-0 fixed w-full'>
-          <button className='border rounded-2xl  p-2 bg-green-900 absolute top-[-15px] w-fit text-white '>
+          <footer className='bottom-0 flex flex-col sticky z-10 w-full'>
+          <button className='border  p-2 bg-green-900 absolute left-[-10px] top-[-15px] w-fit text-white '>
             {showMobileMusicPlayer? <ArrowDown onClick={()=> setShowMobileMusicPlayer(!showMobileMusicPlayer)} /> : <ArrowUp onClick={()=> setShowMobileMusicPlayer(!showMobileMusicPlayer)}/>}
           </button>
             {!showMobileMusicPlayer && <Mobile_Music_Player />}
-            
             {showMobileMusicPlayer && selectedSong && <Music_Player />}
             <Mobile_Navbar />
           </footer>

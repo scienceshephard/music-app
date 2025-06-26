@@ -6,7 +6,7 @@ export const Mobile_Music_Player = () => {
   const{ selectedSong} = useContext(MyContext);
   
   return (
-    <div className='lg:hidden flex inset-shadow-green-900/50 inset-shadow-sm flex-col p-3 h-fit'>
+    <div className='lg:hidden flex inset-shadow-green-900/50 inset-shadow-sm flex-col p-3'>
     {/* Loading Animtaion */}
     {
         selectedSong &&
