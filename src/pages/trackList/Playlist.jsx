@@ -4,7 +4,7 @@ import { Menu } from 'lucide-react';
 
 export const Playlist = () => {
   const { selectedSong, currentSongIndex } = useContext(MyContext);
-  console.log(selectedSong, currentSongIndex);
+  // console.log(selectedSong, currentSongIndex);
   
   return (
     <div className='p-4 bg-white flex-1/2 shadow-md '>
