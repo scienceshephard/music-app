@@ -27,17 +27,10 @@ function App() {
   //search query data
   const [ searchData, setSearchData ] = useState([])
   
-  const [selectedSong, setSelectedSong] = useState(()=>{
-    const storedSong = localStorage.getItem('selectedSong')
-    return storedSong? JSON.parse(storedSong): [];
-  })
-
-  useEffect(() => {
-    localStorage.setItem('selectedSong', JSON.stringify(selectedSong));
-  }, [selectedSong]);
+  const [selectedSong, setSelectedSong] = useState([])
 
   //Audio states
-  const [isPlaying, setIsPlaying] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false);
   const [displayAudioPlayer, setDisplayAudioPlayer] = useState(false)
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
@@ -53,6 +46,7 @@ function App() {
 
   // Audio event handlers
   const handleAudioLoad = () => {
+    console.log('Audio loaded, setting loading to false');
     setAudioLoading(false);
     setAudioError(null);
   };
@@ -118,22 +112,48 @@ function App() {
     setCurrentTime(newTime);
   }
 
-  // Effect for handling current song changes
+  // Effect for handling current song changes - SINGLE VERSION
   useEffect(() => {
     if (!audioRef.current || selectedSong.length === 0) return;
     
     const audio = audioRef.current;
+    const newSrc = selectedSong[currentSongIndex]?.audio || '';
+    
     setAudioLoading(true);
     setAudioError(null);
     
-    // Update audio source
-    audio.src = selectedSong[currentSongIndex]?.audio || '';
-    audio.load(); // Force reload of the audio element
-    
-    // If we should be playing, start playback after load
-    if (isPlaying) {
-      audio.play()
-        .catch(err => handleAudioError(err));
+    // Only load if the source is actually different
+    if (audio.src !== newSrc) {
+      audio.src = newSrc;
+      audio.load();
+      
+      // Set a timeout as fallback to clear loading state
+      const loadingTimeout = setTimeout(() => {
+        setAudioLoading(false);
+      }, 5000); // 5 second timeout
+      
+      const handleCanPlayOnce = () => {
+        clearTimeout(loadingTimeout);
+        setAudioLoading(false);
+        audio.removeEventListener('canplay', handleCanPlayOnce);
+        
+        if (isPlaying) {
+          audio.play().catch(err => handleAudioError(err));
+        }
+      };
+      
+      audio.addEventListener('canplay', handleCanPlayOnce);
+      
+      return () => {
+        clearTimeout(loadingTimeout);
+        audio.removeEventListener('canplay', handleCanPlayOnce);
+      };
+    } else {
+      // Same source, just clear loading
+      setAudioLoading(false);
+      if (isPlaying && audio.paused) {
+        audio.play().catch(err => handleAudioError(err));
+      }
     }
   }, [currentSongIndex, selectedSong]);
 
@@ -143,17 +163,38 @@ function App() {
     if (!audio) return;
 
     const updateTime = () => setCurrentTime(audio.currentTime);
-    const updateDuration = () => setDuration(audio.duration || 0);
-    const handleLoadStart = () => setAudioLoading(true);
-    const handleCanPlay = () => handleAudioLoad();
+    const updateDuration = () => {
+      const newDuration = audio.duration || 0;
+      console.log('Duration updated:', newDuration);
+      setDuration(newDuration);
+
+    };
+    
+    const handleLoadStart = () => {
+      console.log('Audio load started');
+      setAudioLoading(true);
+    };
+    
+    const handleCanPlay = () => {
+      console.log('Audio can play');
+      handleAudioLoad();
+    };
+    
+    const handleLoadedData = () => {
+      console.log('Audio data loaded');
+      handleAudioLoad();
+    };
+    
     const handleError = (e) => handleAudioError(e);
     const handleEnded = () => handleAudioEnded();
 
     // Add event listeners
     audio.addEventListener('timeupdate', updateTime);
     audio.addEventListener('loadedmetadata', updateDuration);
+    audio.addEventListener('durationchange', updateDuration); // Additional duration event
     audio.addEventListener('loadstart', handleLoadStart);
     audio.addEventListener('canplay', handleCanPlay);
+    audio.addEventListener('loadeddata', handleLoadedData);
     audio.addEventListener('error', handleError);
     audio.addEventListener('ended', handleEnded);
 
@@ -165,12 +206,14 @@ function App() {
     return () => {
       audio.removeEventListener('timeupdate', updateTime);
       audio.removeEventListener('loadedmetadata', updateDuration);
+      audio.removeEventListener('durationchange', updateDuration);
       audio.removeEventListener('loadstart', handleLoadStart);
       audio.removeEventListener('canplay', handleCanPlay);
+      audio.removeEventListener('loadeddata', handleLoadedData);
       audio.removeEventListener('error', handleError);
       audio.removeEventListener('ended', handleEnded);
     };
-  }, []);
+  }, [audioRef.current]);
 
   // Effect for play/pause state changes
   useEffect(() => {
@@ -236,6 +279,9 @@ function App() {
       return new Date(time * 1000).toISOString().substr(14, 5);
     }
   };
+  // console.log('currentTime', currentTime);
+  // console.log('duration', duration);
+  
   
   return (
     <MyContext.Provider value={contextValue}>
@@ -244,6 +290,15 @@ function App() {
         <audio
           ref={audioRef}
           preload="metadata"
+          style={{ display: 'none' }}
+        />
+      )}
+
+      {/* Preload the next song (hidden) */}
+      {selectedSong.length > 1 && (
+        <audio
+          src={selectedSong[(currentSongIndex + 1) % selectedSong.length]?.audio}
+          preload="auto"
           style={{ display: 'none' }}
         />
       )}

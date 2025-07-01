@@ -71,7 +71,7 @@ export const Mobile_Music_Player = () => {
             <div className='flex items-center space-x-2'>
               <button 
                 onClick={skipPrev}
-                disabled={selectedSong.length <= 1}
+                disabled={audioLoading || selectedSong.length <= 1}
                 className="p-1 hover:bg-gray-100 rounded disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <SkipBack size={20} />
@@ -93,7 +93,7 @@ export const Mobile_Music_Player = () => {
               
               <button 
                 onClick={skipNext}
-                disabled={selectedSong.length <= 1}
+                disabled={audioLoading ||selectedSong.length <= 1}
                 className="p-1 hover:bg-gray-100 rounded disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <SkipForward size={20} />

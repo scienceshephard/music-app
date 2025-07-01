@@ -22,7 +22,6 @@ export default function Music_Player() {
     audioError,
     formatTime
   } = useContext(MyContext);
-
   // Don't render if no songs are selected
   if (!selectedSong || selectedSong.length === 0) {
     return (
@@ -124,6 +123,9 @@ export default function Music_Player() {
               value={duration ? (currentTime / duration) * 100 : 0} 
               onChange={handleSeek} 
               disabled={audioLoading || audioError}
+              style={{
+                background: `linear-gradient(to right, #498000 0%, #498000 ${duration ? (currentTime / duration) * 100 : 0}%, #e5e7eb ${duration ? (currentTime / duration) * 100 : 0}%, #e5e7eb 100%)`
+              }}
               className="w-full h-2 bg-gray-300 rounded mb-2 appearance-none cursor-pointer disabled:cursor-not-allowed hover:bg-gray-400 transition-colors" 
             />
             
@@ -137,7 +139,7 @@ export default function Music_Player() {
             <div className="flex items-center justify-center gap-6">
               <button 
                 onClick={skipPrev} 
-                disabled={selectedSong.length <= 1}
+                disabled={audioLoading ||selectedSong.length <= 1}
                 className="hover:text-blue-400 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
               >
                 <SkipBack size={32} />
@@ -159,7 +161,7 @@ export default function Music_Player() {
               
               <button 
                 onClick={skipNext} 
-                disabled={selectedSong.length <= 1}
+                disabled={audioLoading ||selectedSong.length <= 1}
                 className="hover:text-blue-400 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
               >
                 <SkipForward size={32} />

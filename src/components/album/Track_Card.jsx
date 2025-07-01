@@ -7,7 +7,7 @@ import { Ellipsis } from 'lucide-react';
 let globalDropdownCloser = () => {};
 
 export const Track_Card = ({ tracks, scrollContainer }) => {
-  const { setSelectedSong, setAlbumloading, currentSongIndex } = useContext(MyContext);
+  const { setSelectedSong, setAlbumloading, currentSongIndex, selectedSong } = useContext(MyContext);
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef(null);
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
@@ -101,7 +101,15 @@ export const Track_Card = ({ tracks, scrollContainer }) => {
             }}
           >
             <span className="p-2.5 block text-sm hover:bg-gray-200">Add to favourite</span>
-            <span className="p-2.5 block text-sm hover:bg-gray-200">Add to queue</span>
+            <span className="p-2.5 block text-sm hover:bg-gray-200" 
+            onClick={() => {
+              const isAlreadyInQueue = selectedSong.find(song => song.id === tracks.id);
+              if (!isAlreadyInQueue) {
+                setSelectedSong(prev => [...prev, tracks]);
+              }
+              closeDropdown();
+            }}
+            >Add to queue</span>
             <span className="p-2.5 block text-sm hover:bg-gray-200">Share</span>
           </div>,
           document.getElementById('dropdown-root')
