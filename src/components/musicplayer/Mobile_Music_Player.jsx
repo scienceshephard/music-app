@@ -118,7 +118,10 @@ export const Mobile_Music_Player = () => {
               value={duration ? (currentTime / duration) * 100 : 0} 
               onChange={handleSeek}
               disabled={audioLoading || audioError}
-              className="w-full h-1 bg-gray-300 rounded appearance-none cursor-pointer disabled:cursor-not-allowed" 
+              className="w-full h-1 bg-gray-300 rounded appearance-none cursor-pointer disabled:cursor-not-allowed"
+              style={{
+                background: `linear-gradient(to right, #498000 0%, #498000 ${duration ? (currentTime / duration) * 100 : 0}%, #e5e7eb ${duration ? (currentTime / duration) * 100 : 0}%, #e5e7eb 100%)`
+              }} 
             />
             
             {/* Time display */}
