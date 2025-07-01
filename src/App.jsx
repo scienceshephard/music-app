@@ -52,6 +52,7 @@ function App() {
   };
 
   const handleAudioError = (error) => {
+    if(error?.name === 'AbortError') return;
     setAudioLoading(false);
     setAudioError('Failed to load audio');
     setIsPlaying(false);
@@ -78,17 +79,22 @@ function App() {
 
   const togglePlay = () => {
     if (!audioRef.current || selectedSong.length === 0) return;
-    
+    const audio = audioRef.current;
     if (isPlaying) {
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
-      audioRef.current.play()
+      if(audio.readyState >= 3){
+        audio.play()
         .then(() => setIsPlaying(true))
         .catch(err => {
           console.error('Playback error:', err);
           handleAudioError(err);
         });
+      }
+      else{
+        setIsPlaying(true);
+      }
     }
   }
 
@@ -151,9 +157,6 @@ function App() {
     } else {
       // Same source, just clear loading
       setAudioLoading(false);
-      if (isPlaying && audio.paused) {
-        audio.play().catch(err => handleAudioError(err));
-      }
     }
   }, [currentSongIndex, selectedSong]);
 
@@ -214,18 +217,6 @@ function App() {
       audio.removeEventListener('ended', handleEnded);
     };
   }, [audioRef.current]);
-
-  // Effect for play/pause state changes
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio || selectedSong.length === 0) return;
-
-    if (isPlaying && audio.paused) {
-      audio.play().catch(err => handleAudioError(err));
-    } else if (!isPlaying && !audio.paused) {
-      audio.pause();
-    }
-  }, [isPlaying]);
 
   const contextValue = {
     // Audio controls

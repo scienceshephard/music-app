@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { MyContext } from '../../Context';
 import { Pause, Play, SkipBack, SkipForward, Repeat, Shuffle, ArrowDown, AlertCircle, Loader } from 'lucide-react';
+import { Playlist } from '../../pages/trackList/Playlist';
 
 export default function Music_Player() {
   const { 
@@ -131,8 +132,8 @@ export default function Music_Player() {
             
             {/* Time display */}
             <div className="flex justify-between text-xs text-gray-500 mb-4">
-              <span>{formatTime(currentTime)}</span>
-              <span>{formatTime(duration)}</span>
+              <span>{audioLoading? '00:00' : formatTime(currentTime)}</span>
+              <span>{audioLoading? '00:00' : formatTime(duration)}</span>
             </div>
 
             {/* Playback controls */}
@@ -175,6 +176,7 @@ export default function Music_Player() {
           </div>
         </div>
       )}
+      {/* { <Playlist />} */}
     </div>
   );
 }

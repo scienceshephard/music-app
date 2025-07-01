@@ -7,7 +7,7 @@ import { Ellipsis } from 'lucide-react';
 let globalDropdownCloser = () => {};
 
 export const Track_Card = ({ tracks, scrollContainer }) => {
-  const { setSelectedSong, setAlbumloading, currentSongIndex, selectedSong } = useContext(MyContext);
+  const { setSelectedSong, setAlbumloading, setCurrentSongIndex, selectedSong } = useContext(MyContext);
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef(null);
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
@@ -55,7 +55,7 @@ export const Track_Card = ({ tracks, scrollContainer }) => {
     setTimeout(() => {
       setAlbumloading(false);
       setSelectedSong([item]);
-      currentSongIndex(0);
+      setCurrentSongIndex(0);
     }, 500);
   };
 

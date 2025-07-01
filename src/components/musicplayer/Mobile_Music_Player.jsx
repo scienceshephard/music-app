@@ -126,11 +126,19 @@ export const Mobile_Music_Player = () => {
             
             {/* Time display */}
             <div className="flex justify-between text-xs text-gray-400">
-              <span>{formatTime(currentTime)}</span>
+              <span>
+                {
+                  audioLoading? '00:00' : formatTime(currentTime)
+                }
+              </span>
               <span className="text-center">
                 {selectedSong.length > 1 && `${currentSongIndex + 1}/${selectedSong.length}`}
               </span>
-              <span>{formatTime(duration)}</span>
+              <span>
+                {
+                  audioLoading? '00:00': formatTime(duration)
+                }
+              </span>
             </div>
           </div>
 
