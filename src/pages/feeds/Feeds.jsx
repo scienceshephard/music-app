@@ -127,14 +127,14 @@ function Feeds() {
         loadingTrack={loadingTrack}
         error={error}
       />
-      <h1 className="text-3xl font-semibold">Latest music gist</h1>
-      <>
+      <div className="p-4">
+        <h1 className="text-3xl font-semibold">Latest music gist</h1>
         <FeedsComponent
           feedsError ={feedsError}
           offsetLoading ={offsetLoading}
           feeds = {allFeeds}
         />
-      </>
+      </div>
    
     </div>
   );

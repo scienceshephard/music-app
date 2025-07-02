@@ -35,7 +35,7 @@ const Home = () => {
                 <Music_Player />
               </div>
              }
-          <footer className='bottom-0 flex flex-col sticky z-10 w-full'>
+          <footer className='bottom-0 flex flex-col fixed z-10 w-full'>
             {!showMobileMusicPlayer && <Mobile_Music_Player />}
             <Mobile_Navbar />
           </footer>

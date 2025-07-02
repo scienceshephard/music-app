@@ -1,6 +1,6 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { MyContext } from '../../Context';
-import { Pause, Play, SkipBack, SkipForward, Repeat, Shuffle, ArrowDown, AlertCircle, Loader } from 'lucide-react';
+import { Pause, Play, SkipBack, SkipForward, Repeat, Shuffle, ArrowDown, AlertCircle, Loader, Menu, Share, Share2, Minus } from 'lucide-react';
 import { Playlist } from '../../pages/trackList/Playlist';
 
 export default function Music_Player() {
@@ -18,11 +18,25 @@ export default function Music_Player() {
     albumloading, 
     selectedSong, 
     showMobileMusicPlayer, 
-    setShowMobileMusicPlayer,
     audioLoading,
     audioError,
     formatTime
   } = useContext(MyContext);
+  const handleCopyLink =(link) =>{
+    navigator.clipboard.writeText(link)
+      .then(()=>{
+        setShowMessage(true);
+        setTimeout(() => {
+          setShowMessage(false);
+        }, 2000);
+      }).catch(err=>{
+        console.error('Failed to copy link:', err);
+        
+      })
+  }
+  const [showMessage, setShowMessage] =useState(false);
+  const [showPlayList, setshowPlayList] = useState(false);
+  const [animatePlaylist, setAnimatePlaylist] = useState(false); 
   // Don't render if no songs are selected
   if (!selectedSong || selectedSong.length === 0) {
     return (
@@ -36,15 +50,11 @@ export default function Music_Player() {
   }
 
   const currentSong = selectedSong[currentSongIndex];
+console.log('selectedSong', currentSong);
 
   return (
-    <div className='bg-[#FAFAFA] transition-all duration-300 text-center mb-20 lg:mb-0 h-full flex-col border-2 p-[20px] border-gray-300 flex-1/2'>
-      {/* Mobile close button */}
-      {showMobileMusicPlayer && (
-        <button className='transition shadow-sm shadow-green-900 absolute left-[-10px] top-[-1px] p-2 bg-green-900 w-fit text-white rounded-br-lg'>
-          <ArrowDown onClick={() => setShowMobileMusicPlayer(false)} />
-        </button>
-      )}
+    <div className='bg-[#FAFAFA] h-screen transition-all duration-300 lg:text-center flex-col border-2 px-[20px] lg:border-gray-300 flex-1/2'>
+      
 
       {/* Loading animation */}
       {albumloading && (
@@ -64,12 +74,12 @@ export default function Music_Player() {
 
       {/* Main player content */}
       {!albumloading && (
-        <div className={`${showMobileMusicPlayer ? 'h-full flex flex-col justify-center' : ''}`}>
-          <h1 className='font-medium text-2xl mb-4'>Now Playing</h1>
+        <div className={`${showMobileMusicPlayer ? 'h-screen flex flex-col pt-5 ' : ''}`}>
+          <h1 className='font-medium text-2xl mb-4 text-center'>Now Playing</h1>
           
-          <div className='flex flex-col h-[300px] w-[300px] ml-auto mr-auto'>
+          <div className='flex flex-col w-[80%]  mx-auto'>
             {/* Album artwork */}
-            <div className='h-full relative'>
+            <div className='h-[40vh] relative'>
               <img 
                 src={currentSong?.image || 'https://via.placeholder.com/300x300?text=No+Image'} 
                 alt={currentSong?.name || "Album image"}  
@@ -77,7 +87,7 @@ export default function Music_Player() {
               />
               
               {/* Audio loading overlay */}
-              {audioLoading && (
+              {!audioLoading && (
                 <div className="absolute inset-0 bg-black bg-opacity-50 rounded-2xl flex items-center justify-center">
                   <Loader className="animate-spin text-white" size={32} />
                 </div>
@@ -174,9 +184,41 @@ export default function Music_Player() {
               Track {currentSongIndex + 1} of {selectedSong.length}
             </div>
           </div>
+          <div className='relative text-green-400 flex items-center justify-between p-2 mt-20'>
+            <button onClick={()=> handleCopyLink(currentSong?.shareurl)} className=' p-2 w-fit cursor-pointer'>
+              <Share2 />
+            </button>
+            {showMessage && <span className='absolute bottom-full text-white px-2 py-1 rounded-xl -rotate-25 bg-black '>Copied to clipboard!!</span>}
+            <button onClick={()=> {
+                setshowPlayList(true)
+                setAnimatePlaylist(true);
+                }
+              } className=' p-2 w-fit cursor-pointer'>
+              <Menu />
+            </button>
+          </div>
+            {showPlayList && showMobileMusicPlayer && selectedSong && (
+            <div 
+              className={`
+                fixed bottom-0 left-0 w-full z-30 bg-white border-t border-green-500 rounded-t-xl transition-transform duration-500 ease-in-out
+                ${animatePlaylist ? 'translate-y-0' : 'translate-y-full'}
+              `}
+              onTransitionEnd={() => {
+                if (!animatePlaylist) setshowPlayList(false); // Only hide after animation ends
+              }}
+            >
+              <button 
+                onClick={() => setAnimatePlaylist(false)}
+                className='w-full text-green-700'
+              >
+                <Minus style={{ width: '100%', height: '48px', display: 'block' }} />
+              </button>
+              <Playlist />
+            </div>
+          )}
+
         </div>
       )}
-      {/* { <Playlist />} */}
     </div>
   );
 }
