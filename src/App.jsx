@@ -60,7 +60,18 @@ function App() {
   };
 
   const handleAudioEnded = () => {
-    skipNext();
+    if (repeatMode === "one") {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play();
+    } else if (repeatMode === "all") {
+      skipNext(); // it already wraps to start
+    } else {
+      if (currentSongIndex < selectedSong.length - 1) {
+        skipNext();
+      } else {
+        setIsPlaying(false); // Stop at end
+      }
+    }
   };
 
   const skipNext = () => {
@@ -98,14 +109,32 @@ function App() {
     }
   }
 
-  const shuffle = (tracks) => {
-    console.log('Shuffle:', tracks);
-    // TODO: Implement shuffle functionality
+  const shuffle = () => {
+   if (selectedSong.length <= 1) return;
+
+  const current = selectedSong[currentSongIndex];
+  
+  // Exclude the current song
+  const rest = selectedSong.filter((_, index) => index !== currentSongIndex);
+
+  // Shuffle the rest
+  for (let i = rest.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [rest[i], rest[j]] = [rest[j], rest[i]];
   }
 
-  const repeat = (tracks) => {
-    console.log('Repeat:', tracks);
-    // TODO: Implement repeat functionality
+  // Place current song at index 0
+  const shuffledList = [current, ...rest];
+
+  setSelectedSong(shuffledList);
+  setCurrentSongIndex(0); // start from the current song
+  
+  }
+  
+  const [repeatMode, setRepeatMode] = useState("off");
+  const repeat = () => {
+    const nextMode = repeatMode === "off" ? "one" : repeatMode === "one" ? "all" : "off";
+    setRepeatMode(nextMode);
   }
 
   const handleSeek = (e) => {
@@ -218,11 +247,17 @@ function App() {
     };
   }, [audioRef.current]);
 
+  const reorderSelectedSongs = (newOrder) => {
+    setSelectedSong(newOrder);
+  };
+
   const contextValue = {
+    reorderSelectedSongs,
     // Audio controls
     togglePlay,
     handleSeek,
     shuffle,
+    repeatMode,
     repeat,
     skipPrev,
     skipNext,

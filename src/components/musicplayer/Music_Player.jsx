@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { MyContext } from '../../Context';
-import { Pause, Play, SkipBack, SkipForward, Repeat, Shuffle, ArrowDown, AlertCircle, Loader, Menu, Share, Share2, Minus } from 'lucide-react';
+import { Pause, Play, SkipBack, SkipForward, Repeat, Shuffle, ArrowDown, AlertCircle, Loader, Menu, Share, Share2, Minus, Repeat1 } from 'lucide-react';
 import { Playlist } from '../../pages/trackList/Playlist';
 
 export default function Music_Player() {
@@ -20,7 +20,8 @@ export default function Music_Player() {
     showMobileMusicPlayer, 
     audioLoading,
     audioError,
-    formatTime
+    formatTime,
+    repeatMode
   } = useContext(MyContext);
   const handleCopyLink =(link) =>{
     navigator.clipboard.writeText(link)
@@ -79,15 +80,15 @@ console.log('selectedSong', currentSong);
           
           <div className='flex flex-col w-[80%]  mx-auto'>
             {/* Album artwork */}
-            <div className='h-[40vh] relative'>
+            <div className='h-[40vh] flex justify-center relative'>
               <img 
                 src={currentSong?.image || 'https://via.placeholder.com/300x300?text=No+Image'} 
                 alt={currentSong?.name || "Album image"}  
-                className='w-full h-full rounded-2xl object-cover'
+                className='w-fit h-full rounded-2xl object-contain'
               />
               
               {/* Audio loading overlay */}
-              {!audioLoading && (
+              {audioLoading && (
                 <div className="absolute inset-0 bg-black bg-opacity-50 rounded-2xl flex items-center justify-center">
                   <Loader className="animate-spin text-white" size={32} />
                 </div>
@@ -119,11 +120,22 @@ console.log('selectedSong', currentSong);
                   {currentSong?.artist_name || 'Unknown Artist'}
                 </span>
               </div>
-              <Repeat 
-                onClick={() => repeat(selectedSong)} 
-                className='hover:cursor-pointer hover:text-[#498000] text-[#008000] transition-colors' 
-                size='32' 
-              />
+              <button>
+                {repeatMode ==="one"?
+                  <Repeat 
+                  onClick={() => repeat()} 
+                  className={`hover:cursor-pointer hover:text-[#498000] text-[#008000] transition-colors
+                      ${repeatMode === "one" || repeatMode === "all" ? 'text-green-700' : 'text-gray-500'}`}
+                  size='32' 
+                />:
+                <Repeat1 
+                  onClick={() => repeat()} 
+                  className={`hover:cursor-pointer hover:text-[#498000] text-[#008000] transition-colors
+                      ${repeatMode === "one" || repeatMode === "all" ? 'text-green-700' : 'text-gray-500'}`}
+                  size='32'
+                />
+              }
+              </button>
             </div>
 
             {/* Progress bar */}
@@ -151,7 +163,7 @@ console.log('selectedSong', currentSong);
               <button 
                 onClick={skipPrev} 
                 disabled={audioLoading ||selectedSong.length <= 1}
-                className="hover:text-blue-400 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
+                className="cursor-pointer hover:text-[#498000] text-[#008000] transition-colors disabled:text-gray-400 disabled:cursor-not-allowed"
               >
                 <SkipBack size={32} />
               </button>
@@ -159,7 +171,7 @@ console.log('selectedSong', currentSong);
               <button
                 onClick={togglePlay}
                 disabled={audioError}
-                className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white p-4 rounded-full transition-colors disabled:cursor-not-allowed"
+                className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white p-4 rounded-full transition-colors disabled:cursor-not-allowed cursor-pointer"
               >
                 {audioLoading ? (
                   <Loader className="animate-spin" size={24} />
@@ -173,7 +185,7 @@ console.log('selectedSong', currentSong);
               <button 
                 onClick={skipNext} 
                 disabled={audioLoading ||selectedSong.length <= 1}
-                className="hover:text-blue-400 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
+                className="cursor-pointer hover:text-[#498000] text-[#008000] transition-colors disabled:text-gray-400 disabled:cursor-not-allowed"
               >
                 <SkipForward size={32} />
               </button>
@@ -184,7 +196,7 @@ console.log('selectedSong', currentSong);
               Track {currentSongIndex + 1} of {selectedSong.length}
             </div>
           </div>
-          <div className='relative text-green-400 flex items-center justify-between p-2 mt-20'>
+          <div className='lg:hidden relative text-green-400 flex items-center justify-between p-2 mt-20'>
             <button onClick={()=> handleCopyLink(currentSong?.shareurl)} className=' p-2 w-fit cursor-pointer'>
               <Share2 />
             </button>
