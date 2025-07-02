@@ -12,25 +12,11 @@ export default function Navbar() {
           fontSize={52}
         />
       </a>
-        <NavLink to="account">
+        <NavLink to="account" 
+        >
           <img src={ accountImage } alt="User Icon" />
         </NavLink>
-      <NavLink
-        to="music"
-        className={({ isActive }) =>
-          ` p-2 rounded-md ${isActive ? "bg-green-700" : "bg-transparent"}`
-        }
-      >
-        <Headphones 
-          width={42}
-          height={50}
-          className="text-gray-400 hover:text-gray-900"
-          />
-      </NavLink>
-      <NavLink to="library"
-        className={({ isActive }) =>
-          ` p-2 rounded-md ${isActive ? "bg-green-700" : "bg-transparent"}`
-        }>
+      <NavLink to="library">
         <Heart
           width={42}
           height={50}
