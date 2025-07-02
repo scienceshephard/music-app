@@ -9,7 +9,7 @@ const Mobile_Navbar = () => {
 
   return (
     <div className='shadow-xl/30 bg-linear-to-bl from-[#384B35] to-[#2D3249] justify-between mt-auto py-3 px-4 lg:hidden flex'>
-      <button className="p-2 focus:bg-green-700 rounded-md" onClick={()=> setShowMobileMusicPlayer(!showMobileMusicPlayer)}>
+      <button className="p-2 text-gray-400 rounded-md" onClick={()=> setShowMobileMusicPlayer(!showMobileMusicPlayer)}>
         <Headphones
           fontSize={52}
         />
@@ -17,7 +17,7 @@ const Mobile_Navbar = () => {
       <NavLink
         to="/"
         className={({ isActive }) =>
-          `p-2 rounded-md ${isActive ? "bg-green-700" : "bg-transparent"}`
+          `p-2 rounded-md ${isActive ? "text-green-700" : "text-gray-400"}`
         }
       >
         <Grip
@@ -27,7 +27,7 @@ const Mobile_Navbar = () => {
       <NavLink
         to="library"
         className={({ isActive }) =>
-          `p-2 rounded-md ${isActive ? "bg-green-700" : "bg-transparent"}`
+          `p-2 rounded-md ${isActive ? "text-green-700" : "text-gray-400"}`
         }
       >
         <Heart
@@ -37,7 +37,7 @@ const Mobile_Navbar = () => {
       <NavLink
         to="settings"
         className={({ isActive }) =>
-          `p-2 rounded-md ${isActive ? "bg-green-700" : "bg-transparent"}`
+          `p-2 rounded-md ${isActive ? "text-green-700" : "text-gray-400"}`
         }
       >
         <Settings

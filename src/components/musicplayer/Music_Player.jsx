@@ -14,8 +14,7 @@ export default function Music_Player() {
     repeat, 
     currentSongIndex, 
     skipPrev, 
-    skipNext, 
-    albumloading, 
+    skipNext,
     selectedSong, 
     showMobileMusicPlayer, 
     audioLoading,
@@ -53,11 +52,11 @@ export default function Music_Player() {
   const currentSong = selectedSong[currentSongIndex];
 
   return (
-    <div className='bg-[#FAFAFA] h-screen transition-all duration-300 lg:text-center flex-col border-2 px-[20px] lg:border-gray-300 flex-1/2'>
+    <div className='bg-[#FAFAFA] h-dvh transition-all duration-300 lg:text-center flex-col border-2 px-[20px] lg:border-gray-300 flex-1/2'>
       
 
       {/* Loading animation */}
-      {albumloading && (
+      {audioLoading && (
         <div className='space-y-2.5 h-full animate-pulse'>
           <div className='w-1/3 h-8 bg-gray-300 mx-auto rounded'></div>
           <div className='h-[300px] w-[50%] rounded-2xl bg-gray-300 mx-auto'></div>
@@ -73,8 +72,8 @@ export default function Music_Player() {
       )}
 
       {/* Main player content */}
-      {!albumloading && (
-        <div className={`${showMobileMusicPlayer ? 'h-screen flex flex-col pt-5 ' : ''}`}>
+      {!audioLoading && (
+        <div className={`${showMobileMusicPlayer ? 'h-dvh flex flex-col pt-5 ' : ''}`}>
           <h1 className='font-medium text-2xl mb-4 text-center'>Now Playing</h1>
           
           <div className='flex flex-col w-[80%]  mx-auto'>
@@ -212,7 +211,7 @@ export default function Music_Player() {
               Track {currentSongIndex + 1} of {selectedSong.length}
             </div>
           </div>
-          <div className='lg:hidden relative text-green-400 flex items-center justify-between p-2 mt-20'>
+          <div className='lg:hidden relative text-green-400 flex items-center justify-between p-2 mt-10'>
             <button onClick={()=> handleCopyLink(currentSong?.shareurl)} className=' p-2 w-fit cursor-pointer'>
               <Share2 />
             </button>
