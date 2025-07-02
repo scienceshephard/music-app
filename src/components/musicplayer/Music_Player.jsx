@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { MyContext } from '../../Context';
-import { Pause, Play, SkipBack, SkipForward, Repeat, Shuffle, ArrowDown, AlertCircle, Loader, Menu, Share, Share2, Minus, Repeat1 } from 'lucide-react';
+import { Pause, Play, SkipBack, SkipForward, Repeat, Shuffle, AlertCircle, Loader, Menu, Share, Share2, Minus, Repeat1, Repeat2 } from 'lucide-react';
 import { Playlist } from '../../pages/trackList/Playlist';
 
 export default function Music_Player() {
@@ -51,7 +51,6 @@ export default function Music_Player() {
   }
 
   const currentSong = selectedSong[currentSongIndex];
-console.log('selectedSong', currentSong);
 
   return (
     <div className='bg-[#FAFAFA] h-screen transition-all duration-300 lg:text-center flex-col border-2 px-[20px] lg:border-gray-300 flex-1/2'>
@@ -120,21 +119,38 @@ console.log('selectedSong', currentSong);
                   {currentSong?.artist_name || 'Unknown Artist'}
                 </span>
               </div>
-              <button>
-                {repeatMode ==="one"?
-                  <Repeat 
-                  onClick={() => repeat()} 
-                  className={`hover:cursor-pointer hover:text-[#498000] text-[#008000] transition-colors
-                      ${repeatMode === "one" || repeatMode === "all" ? 'text-green-700' : 'text-gray-500'}`}
-                  size='32' 
-                />:
-                <Repeat1 
-                  onClick={() => repeat()} 
-                  className={`hover:cursor-pointer hover:text-[#498000] text-[#008000] transition-colors
-                      ${repeatMode === "one" || repeatMode === "all" ? 'text-green-700' : 'text-gray-500'}`}
-                  size='32'
-                />
-              }
+              <button
+                onClick={() => {
+                  console.log(repeatMode);
+                  repeat();
+                }}
+              >
+                {(() => {
+                  switch (repeatMode) {
+                    case "one":
+                      return (
+                        <Repeat1
+                          className="hover:cursor-pointer hover:text-[#498000] text-green-700 transition-colors"
+                          size={32}
+                        />
+                      );
+                    case "all":
+                      return (
+                        <Repeat2
+                          className="hover:cursor-pointer hover:text-[#498000] text-green-700 transition-colors"
+                          size={32}
+                        />
+                      );
+                    case "off":
+                      return (
+                        <Repeat
+                          className="hover:cursor-pointer hover:text-[#498000] text-gray-500 transition-colors"
+                          size={32}
+                        />
+                      );
+                    default: return;
+                  }
+                })()}
               </button>
             </div>
 
