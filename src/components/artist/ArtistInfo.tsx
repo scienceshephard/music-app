@@ -31,16 +31,21 @@ export const ArtistInfo = () => {
     // console.log('Updated artistInfo:', artistInfo)
   }, [artistInfo])
 
+  // ...existing code...
   return (
-    <div>
-      {artistInfo ? (
-        <div className="">
-          { artistInfo[0].image? <img src={ artistInfo[0].image } alt={artistInfo[0].name} className=' w-2/3 mx-auto rounded-2xl' /> :  <img src='https://www.w3schools.com/howto/img_avatar.png' alt='avatar' className=' w-2/3 mx-auto rounded-2xl' />}
-          <p>{ artistInfo[0].name }</p>
+    <>
+      {artistInfo && artistInfo.length > 0 ? (
+        <div>
+          {artistInfo.map((artist, index) => (
+            <div key={index} className='text-center my-4'>
+              <img src={artist.image || 'https://www.w3schools.com/howto/img_avatar.png'} alt={artist.name} className='w-2/3 mx-auto rounded-2xl' />
+              <p className='text-lg font-semibold'>{artist.name}</p>
+            </div>
+          ))}
         </div>
       ) : (
-        <p>No artist info found</p>
+        <h1 className='text-2xl font-bold text-center my-4'>No Artist Info Found</h1>
       )}
-    </div>
+    </>
   )
 }
