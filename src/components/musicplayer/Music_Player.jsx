@@ -40,7 +40,7 @@ export default function Music_Player() {
   // Don't render if no songs are selected
   if (!selectedSong || selectedSong.length === 0) {
     return (
-      <div className='bg-[#FAFAFA] transition-all duration-300 text-center mb-20 lg:mb-0 h-full flex-col border-2 p-[20px] border-gray-300 flex-1/2'>
+      <div className='bg-[#FAFAFA] h-dvh transition-all duration-300 text-center mb-20 lg:mb-0 flex-col lg:border-2 p-[20px] border-gray-300 flex-1/2'>
         <div className="flex flex-col items-center justify-center h-full text-gray-500">
           <p className="text-lg">No songs selected</p>
           <p className="text-sm">Choose a song to start playing</p>
@@ -61,19 +61,19 @@ export default function Music_Player() {
           <div className='w-1/3 h-8 bg-gray-300 mx-auto rounded'></div>
           <div className='h-[300px] w-[50%] rounded-2xl bg-gray-300 mx-auto'></div>
           <div className='w-1/2 mx-auto flex items-center justify-between'>
-            <Shuffle size='32' color='grey' />
+            <Shuffle color='grey' />
             <div className='flex flex-col gap-3 w-[60%] items-center'>
               <span className='h-5 bg-gray-400 w-[100%] rounded'></span>
               <span className='h-5 bg-gray-400 w-[60%] rounded'></span>
             </div>
-            <Repeat size='32' color='grey' />
+            <Repeat color='grey' />
           </div>
         </div>
       )}
 
       {/* Main player content */}
       {!audioLoading && (
-        <div className={`${showMobileMusicPlayer ? 'h-dvh flex flex-col pt-5 ' : ''}`}>
+        <div className={`${showMobileMusicPlayer ? 'h-dvh  flex flex-col pt-5 ' : ''}`}>
           <h1 className='font-medium text-2xl mb-4 text-center'>Now Playing</h1>
           
           <div className='flex flex-col w-[80%]  mx-auto'>
@@ -88,7 +88,7 @@ export default function Music_Player() {
               {/* Audio loading overlay */}
               {audioLoading && (
                 <div className="absolute inset-0 bg-black bg-opacity-50 rounded-2xl flex items-center justify-center">
-                  <Loader className="animate-spin text-white" size={32} />
+                  <Loader className="animate-spin text-white"  />
                 </div>
               )}
               
@@ -96,7 +96,7 @@ export default function Music_Player() {
               {audioError && (
                 <div className="absolute inset-0 bg-red-500 bg-opacity-75 rounded-2xl flex items-center justify-center">
                   <div className="text-white text-center">
-                    <AlertCircle size={32} className="mx-auto mb-2" />
+                    <AlertCircle  className="mx-auto mb-2" />
                     <p className="text-sm">{audioError}</p>
                   </div>
                 </div>
@@ -105,16 +105,17 @@ export default function Music_Player() {
             
             {/* Song info and controls */}
             <div className='mt-4 flex items-center justify-between'>
-              <Shuffle 
-                onClick={() => shuffle(selectedSong)} 
-                className='hover:cursor-pointer hover:text-[#498000] text-[#008000] transition-colors'  
-                size='32' 
-              />
-              <div className='flex flex-col text-center flex-1 mx-4'>
-                <span className='text-xl font-medium truncate' title={currentSong?.name}>
+              <button>
+                <Shuffle
+                  onClick={() => shuffle(selectedSong)} 
+                  className='hover:cursor-pointer hover:text-[#498000] text-[#008000] transition-colors'   
+                />
+              </button>
+              <div className='flex flex-col text-center flex-1 mx-4 sm:mx-4 min-w-0'>
+                <span className='text-base sm:text-lg md:text-xl font-medium truncate' title={currentSong?.name}>
                   {currentSong?.name || 'Unknown Song'}
                 </span>
-                <span className='text-gray-600 truncate' title={currentSong?.artist_name}>
+                <span className='text-xs sm:text-sm md:text-base text-gray-600 truncate' title={currentSong?.artist_name}>
                   {currentSong?.artist_name || 'Unknown Artist'}
                 </span>
               </div>
@@ -130,21 +131,18 @@ export default function Music_Player() {
                       return (
                         <Repeat1
                           className="hover:cursor-pointer hover:text-[#498000] text-green-700 transition-colors"
-                          size={32}
                         />
                       );
                     case "all":
                       return (
                         <Repeat2
                           className="hover:cursor-pointer hover:text-[#498000] text-green-700 transition-colors"
-                          size={32}
                         />
                       );
                     case "off":
                       return (
                         <Repeat
                           className="hover:cursor-pointer hover:text-[#498000] text-gray-500 transition-colors"
-                          size={32}
                         />
                       );
                     default: return;
@@ -180,7 +178,7 @@ export default function Music_Player() {
                 disabled={audioLoading ||selectedSong.length <= 1}
                 className="cursor-pointer hover:text-[#498000] text-[#008000] transition-colors disabled:text-gray-400 disabled:cursor-not-allowed"
               >
-                <SkipBack size={32} />
+                <SkipBack  />
               </button>
               
               <button
@@ -189,11 +187,11 @@ export default function Music_Player() {
                 className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white p-4 rounded-full transition-colors disabled:cursor-not-allowed cursor-pointer"
               >
                 {audioLoading ? (
-                  <Loader className="animate-spin" size={24} />
+                  <Loader className="animate-spin" />
                 ) : isPlaying ? (
-                  <Pause size={24} />
+                  <Pause />
                 ) : (
-                  <Play size={24} />
+                  <Play />
                 )}
               </button>
               
@@ -202,7 +200,7 @@ export default function Music_Player() {
                 disabled={audioLoading ||selectedSong.length <= 1}
                 className="cursor-pointer hover:text-[#498000] text-[#008000] transition-colors disabled:text-gray-400 disabled:cursor-not-allowed"
               >
-                <SkipForward size={32} />
+                <SkipForward  />
               </button>
             </div>
 
