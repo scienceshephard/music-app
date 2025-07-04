@@ -1,10 +1,10 @@
 import { NavLink } from "react-router-dom";
-import accountImage from '../../assets/images/account-pin-circle-fill.svg';
 import { CiHeart, CiSettings } from 'react-icons/ci';
 import { LuGrip } from 'react-icons/lu';
 import { useContext } from "react";
 import { MyContext } from "../../Context";
 import { AiOutlineLogout, AiOutlineLogin } from "react-icons/ai";
+import { RiAccountPinCircleFill } from "react-icons/ri";
 
 
 export default function Navbar() {
@@ -22,7 +22,10 @@ export default function Navbar() {
       </a>
         <NavLink to="account" 
         >
-          <img src={ accountImage } alt="User Icon" />
+          <RiAccountPinCircleFill
+            size={42}
+            className="text-gray-400 hover:text-gray-900"
+           />
         </NavLink>
       <NavLink to="library">
         <CiHeart
