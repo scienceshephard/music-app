@@ -13,9 +13,20 @@ import { NotFound } from './pages/404/404'
 import { Settings } from './pages/settings/Settings'
 import { FeedsInfoPage} from './pages/feeds/FeedsPage'
 import { Playlist } from './pages/trackList/Playlist'
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from './config/firebase'
 
 function App() {
-  
+
+  //Autentication
+  const [user, setUser] = useState('');
+  const [showAuthPage, setShowAuthPage] = useState(false);
+  useEffect(()=>{
+    const unsubscribe = onAuthStateChanged(auth, (currentUser)=>{
+      setUser(currentUser);
+    })
+    return ()=>unsubscribe()
+  }, [])
   //Navigation states
   const[origin, setOrigin] = useState(null)
 
@@ -252,6 +263,10 @@ function App() {
   };
 
   const contextValue = {
+    // Authentication state
+    user,
+    showAuthPage,
+    setShowAuthPage,
     reorderSelectedSongs,
     // Audio controls
     togglePlay,
@@ -285,7 +300,7 @@ function App() {
     
     // Navigation
     origin,
-    setOrigin,
+      setOrigin,
     
     // Data
     allAlbums,

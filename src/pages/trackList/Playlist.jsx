@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { MyContext } from '../../Context';
-import { Menu } from 'lucide-react';
 import {
   DndContext,
   closestCenter,
@@ -16,6 +15,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { IoMenu } from 'react-icons/io5';
 
 export const Playlist = () => {
   const { selectedSong, currentSongIndex, reorderSelectedSongs } = useContext(MyContext);
@@ -89,7 +89,7 @@ const SortableSong = ({ song, isCurrent }) => {
       }`}
     >
       <button className='rounded bg-gray-200 p-1 ml-2.5 hover:bg-gray-300 transition-colors'>
-        <Menu />
+        <IoMenu />
       </button>
       <div>
         <div className="font-semibold">{song.name}</div>

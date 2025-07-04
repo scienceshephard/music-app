@@ -1,6 +1,10 @@
 import React, { useContext } from 'react'
 import { MyContext } from '../../Context';
-import { Pause, Play, SkipBack, SkipForward, ArrowUp, AlertCircle, Loader } from 'lucide-react';
+import { LuLoaderCircle } from 'react-icons/lu';
+import { FiAlertCircle } from 'react-icons/fi';
+import { FaArrowUp, FaPause } from 'react-icons/fa';
+import { IoIosSkipForward, IoMdSkipBackward } from 'react-icons/io';
+import { CiPlay1 } from 'react-icons/ci';
 
 export const Mobile_Music_Player = () => {
   const { 
@@ -46,13 +50,13 @@ export const Mobile_Music_Player = () => {
               {/* Loading/Error overlay */}
               {audioLoading && (
                 <div className="absolute inset-0 bg-black bg-opacity-50 rounded flex items-center justify-center">
-                  <Loader className="animate-spin text-white" size={16} />
+                  <LuLoaderCircle className="animate-spin text-white" size={16} />
                 </div>
               )}
               
               {audioError && (
                 <div className="absolute inset-0 bg-red-500 bg-opacity-75 rounded flex items-center justify-center">
-                  <AlertCircle className="text-white" size={16} />
+                  <FiAlertCircle className="text-white" size={16} />
                 </div>
               )}
             </div>
@@ -74,7 +78,7 @@ export const Mobile_Music_Player = () => {
                 disabled={audioLoading || selectedSong.length <= 1}
                 className="p-1 hover:bg-gray-100 rounded disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <SkipBack size={20} />
+                <IoMdSkipBackward size={20} />
               </button>
               
               <button
@@ -83,11 +87,11 @@ export const Mobile_Music_Player = () => {
                 className="p-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white rounded-full transition-colors"
               >
                 {audioLoading ? (
-                  <Loader className="animate-spin" size={16} />
+                  <LuLoaderCircle className="animate-spin" size={16} />
                 ) : isPlaying ? (
-                  <Pause size={16} />
+                  <FaPause size={16} />
                 ) : (
-                  <Play size={16} />
+                  <CiPlay1 size={16} />
                 )}
               </button>
               
@@ -96,7 +100,7 @@ export const Mobile_Music_Player = () => {
                 disabled={audioLoading ||selectedSong.length <= 1}
                 className="p-1 hover:bg-gray-100 rounded disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <SkipForward size={20} />
+                <IoIosSkipForward size={20} />
               </button>
 
               {/* Expand button */}
@@ -104,7 +108,7 @@ export const Mobile_Music_Player = () => {
                 onClick={() => setShowMobileMusicPlayer(true)}
                 className="p-1 hover:bg-gray-100 rounded ml-2"
               >
-                <ArrowUp size={20} />
+                <FaArrowUp size={20} />
               </button>
             </div>
           </div>

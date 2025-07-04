@@ -1,7 +1,14 @@
 import { useContext, useState } from 'react';
 import { MyContext } from '../../Context';
-import { Pause, Play, SkipBack, SkipForward, Repeat, Shuffle, AlertCircle, Loader, Menu, Share, Share2, Minus, Repeat1, Repeat2 } from 'lucide-react';
 import { Playlist } from '../../pages/trackList/Playlist';
+import { LuLoaderCircle, LuRepeat1 } from 'react-icons/lu';
+import { FiAlertCircle } from 'react-icons/fi';
+import { FaMinus, FaPause } from 'react-icons/fa';
+import { IoIosSkipForward, IoMdRepeat, IoMdSkipBackward } from 'react-icons/io';
+import { CiPlay1, CiShuffle } from 'react-icons/ci';
+import { CgRepeat } from 'react-icons/cg';
+import { RiMenuFold2Fill } from 'react-icons/ri';
+import { IoShareSocial } from 'react-icons/io5';
 
 export default function Music_Player() {
   const { 
@@ -61,12 +68,12 @@ export default function Music_Player() {
           <div className='w-1/3 h-8 bg-gray-300 mx-auto rounded'></div>
           <div className='h-[300px] w-[50%] rounded-2xl bg-gray-300 mx-auto'></div>
           <div className='w-1/2 mx-auto flex items-center justify-between'>
-            <Shuffle color='grey' />
+            <CiShuffle color='grey' />
             <div className='flex flex-col gap-3 w-[60%] items-center'>
               <span className='h-5 bg-gray-400 w-[100%] rounded'></span>
               <span className='h-5 bg-gray-400 w-[60%] rounded'></span>
             </div>
-            <Repeat color='grey' />
+            <IoMdRepeat color='grey' />
           </div>
         </div>
       )}
@@ -88,7 +95,7 @@ export default function Music_Player() {
               {/* Audio loading overlay */}
               {audioLoading && (
                 <div className="absolute inset-0 bg-black bg-opacity-50 rounded-2xl flex items-center justify-center">
-                  <Loader className="animate-spin text-white"  />
+                  <LuLoaderCircle className="animate-spin text-white"  />
                 </div>
               )}
               
@@ -96,7 +103,7 @@ export default function Music_Player() {
               {audioError && (
                 <div className="absolute inset-0 bg-red-500 bg-opacity-75 rounded-2xl flex items-center justify-center">
                   <div className="text-white text-center">
-                    <AlertCircle  className="mx-auto mb-2" />
+                    <FiAlertCircle  className="mx-auto mb-2" />
                     <p className="text-sm">{audioError}</p>
                   </div>
                 </div>
@@ -106,7 +113,7 @@ export default function Music_Player() {
             {/* Song info and controls */}
             <div className='mt-4 flex items-center justify-between'>
               <button>
-                <Shuffle
+                <CiShuffle
                   onClick={() => shuffle(selectedSong)} 
                   className='hover:cursor-pointer hover:text-[#498000] text-[#008000] transition-colors'   
                 />
@@ -129,19 +136,19 @@ export default function Music_Player() {
                   switch (repeatMode) {
                     case "one":
                       return (
-                        <Repeat1
+                        <LuRepeat1
                           className="hover:cursor-pointer hover:text-[#498000] text-green-700 transition-colors"
                         />
                       );
                     case "all":
                       return (
-                        <Repeat2
+                        <CgRepeat
                           className="hover:cursor-pointer hover:text-[#498000] text-green-700 transition-colors"
                         />
                       );
                     case "off":
                       return (
-                        <Repeat
+                        <IoMdRepeat
                           className="hover:cursor-pointer hover:text-[#498000] text-gray-500 transition-colors"
                         />
                       );
@@ -178,7 +185,7 @@ export default function Music_Player() {
                 disabled={audioLoading ||selectedSong.length <= 1}
                 className="cursor-pointer hover:text-[#498000] text-[#008000] transition-colors disabled:text-gray-400 disabled:cursor-not-allowed"
               >
-                <SkipBack  />
+                <IoMdSkipBackward  />
               </button>
               
               <button
@@ -187,11 +194,11 @@ export default function Music_Player() {
                 className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white p-4 rounded-full transition-colors disabled:cursor-not-allowed cursor-pointer"
               >
                 {audioLoading ? (
-                  <Loader className="animate-spin" />
+                  <LuLoaderCircle className="animate-spin" />
                 ) : isPlaying ? (
-                  <Pause />
+                  <FaPause />
                 ) : (
-                  <Play />
+                  <CiPlay1 />
                 )}
               </button>
               
@@ -200,7 +207,7 @@ export default function Music_Player() {
                 disabled={audioLoading ||selectedSong.length <= 1}
                 className="cursor-pointer hover:text-[#498000] text-[#008000] transition-colors disabled:text-gray-400 disabled:cursor-not-allowed"
               >
-                <SkipForward  />
+                <IoIosSkipForward  />
               </button>
             </div>
 
@@ -211,7 +218,7 @@ export default function Music_Player() {
           </div>
           <div className='lg:hidden relative text-green-400 flex items-center justify-between p-2 mt-10'>
             <button onClick={()=> handleCopyLink(currentSong?.shareurl)} className=' p-2 w-fit cursor-pointer'>
-              <Share2 />
+              <IoShareSocial />
             </button>
             {showMessage && <span className='absolute bottom-full text-white px-2 py-1 rounded-xl -rotate-25 bg-black '>Copied to clipboard!!</span>}
             <button onClick={()=> {
@@ -219,7 +226,7 @@ export default function Music_Player() {
                 setAnimatePlaylist(true);
                 }
               } className=' p-2 w-fit cursor-pointer'>
-              <Menu />
+              <RiMenuFold2Fill />
             </button>
           </div>
             {showPlayList && showMobileMusicPlayer && selectedSong && (
@@ -236,7 +243,7 @@ export default function Music_Player() {
                 onClick={() => setAnimatePlaylist(false)}
                 className='w-full text-green-700'
               >
-                <Minus style={{ width: '100%', height: '48px', display: 'block' }} />
+                <FaMinus style={{ width: '100%', height: '48px', display: 'block' }} />
               </button>
               <Playlist />
             </div>

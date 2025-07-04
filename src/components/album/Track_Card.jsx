@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router';
 import { MyContext } from '../../Context';
-import { Ellipsis } from 'lucide-react';
+import { FaEllipsisH } from 'react-icons/fa';
 
 let globalDropdownCloser = () => {};
 
@@ -68,7 +68,7 @@ export const Track_Card = ({ tracks, scrollContainer }) => {
           onClick={toggleDropdown}
           type="button"
         >
-          <Ellipsis fontSize={18} />
+          <FaEllipsisH fontSize={22} />
         </button>
         <img
           src={tracks.image}

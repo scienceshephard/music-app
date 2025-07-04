@@ -7,10 +7,11 @@ import { Playlist } from './trackList/Playlist'
 import { Mobile_Music_Player } from '../components/musicplayer/Mobile_Music_Player'
 import Mobile_Navbar from '../components/navbar/Mobile_Navbar'
 import { MyContext } from '../Context'
-import { ArrowUp, ArrowDown } from 'lucide-react'
+import { createPortal } from 'react-dom'
+import { AuthPage } from '../auth/auth'
 
 const Home = () => {
-  const {showMobileMusicPlayer, selectedSong} =useContext(MyContext);
+  const {showMobileMusicPlayer, selectedSong, showAuthPage} =useContext(MyContext);
   return (
     <div className="lg:pb-0">
         {/* Desktop design */}
@@ -40,7 +41,14 @@ const Home = () => {
             <Mobile_Navbar />
           </footer>
         </div>
-
+        {/* Auth Page */}
+        {showAuthPage && createPortal(
+          <div className='border w-screen h-screen bg-gray-900/50 flex justify-center items-center absolute top-0 left-0 z-50'
+          >
+            <AuthPage />
+          </div>
+          , document.getElementById('auth-root'))
+        }
     </div>
   )
 }

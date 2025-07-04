@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router'
 import { useSearch } from '../../hooks/useSearch'
-import { ChevronLeft, ChevronRight, Search } from 'lucide-react'
+import { CiSearch } from 'react-icons/ci'
+import { FaAngleRight, FaAngleLeft } from 'react-icons/fa'
 
 const NavgationButtons = () => {
   const [showInput, setShowInput] = useState(false)
@@ -87,7 +88,7 @@ const NavgationButtons = () => {
         disabled={history.length <= 1}
         className="group p-2 rounded-full disabled:cursor-not-allowed bg-green-500 disabled:bg-transparent hover:bg-green-600 transition"
       >
-        <ChevronLeft className="text-white group-disabled:text-gray-400" size={22} />
+        <FaAngleLeft className="text-white group-disabled:text-gray-400" size={22} />
       </button>
 
       <button
@@ -96,7 +97,7 @@ const NavgationButtons = () => {
         onClick={goForward}
         disabled={forward.length === 0}
       >
-        <ChevronRight className="text-white group-disabled:text-gray-400" size={22} />
+        <FaAngleRight className="text-white group-disabled:text-gray-400" size={22} />
       </button>
 
       <div
@@ -109,7 +110,7 @@ const NavgationButtons = () => {
           className="text-green-800 cursor-pointer"
           onClick={handleLabelClick}
         >
-          <Search />
+          <CiSearch />
         </label>
         <div
             className={`transition-all duration-300 ease-in-out overflow-hidden ${
