@@ -1,12 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Rubik+Gemstones&display=swap');
 @import 'tailwindcss';
 @theme{
     --animate-loader: spin 1s linear infinite;
     --breakpoint-tablet: 990px;
+    --font-lato: 'Lato', sans-serif;
     @keyframes spin {
         form{
             transfrom: rotate(0deg);
         }
     }
+}
+*{
+  font-family: var(--font-lato)
 }
 /* Remove default blue accent and style the range input */
 input[type="range"] {

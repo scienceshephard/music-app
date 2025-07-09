@@ -13,7 +13,7 @@ import { NotFound } from './pages/404/404'
 import { Settings } from './pages/settings/Settings'
 import { FeedsInfoPage} from './pages/feeds/FeedsPage'
 import { Playlist } from './pages/trackList/Playlist'
-import { onAuthStateChanged } from 'firebase/auth'
+import { browserLocalPersistence, onAuthStateChanged, setPersistence } from 'firebase/auth'
 import { auth } from './config/firebase'
 
 function App() {
@@ -261,6 +261,16 @@ function App() {
   const reorderSelectedSongs = (newOrder) => {
     setSelectedSong(newOrder);
   };
+  // Authentication functions
+  useEffect(()=>{
+    setPersistence(auth, browserLocalPersistence)
+      .then(()=>{
+        console.log('Persitence to storage')
+      })
+      .catch((err)=>{
+        console.error("Persistence error:  ",err.meassage)
+      })
+  })
 
   const contextValue = {
     // Authentication state

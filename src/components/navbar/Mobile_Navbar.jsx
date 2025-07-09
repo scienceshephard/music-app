@@ -13,7 +13,7 @@ const Mobile_Navbar = () => {
     <div className='shadow-xl/30 bg-linear-to-bl from-[#384B35] to-[#2D3249] justify-between mt-auto py-3 px-4 lg:hidden flex'>
       <button className="p-2 text-gray-400 rounded-md" onClick={()=> setShowMobileMusicPlayer(!showMobileMusicPlayer)}>
         <ImHeadphones
-          fontSize={42}
+          fontSize={32}
         />
       </button>
       <NavLink
@@ -23,7 +23,7 @@ const Mobile_Navbar = () => {
         }
       >
         <LuGrip
-          fontSize={42}
+          fontSize={32}
         />
       </NavLink>
       <NavLink
@@ -33,7 +33,7 @@ const Mobile_Navbar = () => {
         }
       >
         <CiHeart
-          fontSize={42}
+          fontSize={32}
         />
       </NavLink>
       <NavLink
@@ -43,7 +43,7 @@ const Mobile_Navbar = () => {
         }
       >
         <CiSettings
-          fontSize={42}
+          fontSize={32}
         />
       </NavLink>
     </div>
