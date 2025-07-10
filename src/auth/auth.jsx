@@ -66,7 +66,7 @@ export const AuthPage = () => {
 
 
   return (
-    <div ref={authRef} className="h-[50vh] border w-[40%] p-6 rounded-3xl shadow-lg">
+    <div ref={authRef} className="lg:w-[40%]  p-6 rounded-3xl shadow-lg">
       {user ? (
         <div className="w-full flex flex-col gap-10 h-full">
           <h1 className="text-center text-2xl text-red-800 font-extrabold">
@@ -141,7 +141,7 @@ export const AuthPage = () => {
                 </span>
                 : ''
               }
-          <div className="lg:text-5xl text-[48px] w-fit gap-[30px] mx-auto flex col-span-2">
+          <div className="text-5xl w-fit gap-[30px] mx-auto flex col-span-2">
             <button className="cursor-pointer" onClick={loginGoogle}>
               <FcGoogle />
             </button>
