@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import './App.css' 
 import Home from './pages/Home'
 import Feeds from './pages/feeds/Feeds'
@@ -15,6 +15,7 @@ import { FeedsInfoPage} from './pages/feeds/FeedsPage'
 import { Playlist } from './pages/trackList/Playlist'
 import { onAuthStateChanged, signInWithPopup, } from 'firebase/auth'
 import { auth, googleProvider } from './config/firebase'
+import { ProtectedRoute } from './components/ProtectedRoute'
 
 function App() {
 
@@ -22,7 +23,7 @@ function App() {
   const [user, setUser] = useState({});
   const [showAuthPage, setShowAuthPage] = useState(false);
   const [Autherror, setAuthError] = useState('');
-    
+    const navigate = useNavigate();
   useEffect(()=>{
     const unsubscribe = onAuthStateChanged(auth, (currentUser)=>{
       setUser(currentUser);
@@ -33,7 +34,14 @@ function App() {
 
   const loginGoogle = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      const result = await signInWithPopup(auth, googleProvider);
+      setUser(result.user);
+      if( user && user._tokenResponse && user._tokenResponse.isNewUser) {
+        setShowAuthPage(false);
+        navigate('/account');
+      }else{
+        setShowAuthPage(false);
+      }
     } catch (err) {
       console.error(err.message)
       setAuthError(err.message)
@@ -374,12 +382,30 @@ function App() {
       
       <Routes>
         <Route path='/' element={<Home />}>
-          <Route index element={<Feeds />} />
+          <Route index element={
+              <Feeds />
+          } />
           <Route path='/artist/:name' element={<ArtistInfo />} />
-          <Route path='playlist/:name' element={<Playlist/>} />
-          <Route path='/library' element={<Favourite />} />
-          <Route path='account' element={<Account />} />
-          <Route path='settings' element={<Settings />} />
+          <Route path='playlist/:name' element={
+            <ProtectedRoute>
+              <Playlist/>
+            </ProtectedRoute>
+            } />
+          <Route path='/library' element={
+            <ProtectedRoute>
+              <Favourite />
+            </ProtectedRoute>
+            } />
+          <Route path='account' element={
+            <ProtectedRoute>
+              <Account />
+            </ProtectedRoute>
+            } />
+          <Route path='settings' element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+            } />
           <Route path='feed/:id' element={<FeedsInfoPage />} />
         </Route>
         <Route path='/sign-up' element={<SignUp />} />

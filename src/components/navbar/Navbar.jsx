@@ -14,11 +14,11 @@ export default function Navbar() {
   return (
     <nav className=" grow-0 p-[20px] flex-col gap-5 bg-[#FAFAFA] w-fit shadow-xl/30 bg-linear-to-bl from-[#384B35] to-[#2D3249] hidden lg:flex lg:w-[80px] sm:w-[60px] md:w-[70px]">
       
-      <a href="/" className="flex justify-center border-b text-center pb-[10px] border-gray-400">
+      <NavLink to="/" className="flex justify-center border-b text-center pb-[10px] border-gray-400">
         <LuGrip
           fontSize={52}
         />
-      </a>
+      </NavLink>
         <NavLink to="account" 
         >
           <RiAccountPinCircleFill
