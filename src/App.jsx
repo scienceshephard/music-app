@@ -13,20 +13,43 @@ import { NotFound } from './pages/404/404'
 import { Settings } from './pages/settings/Settings'
 import { FeedsInfoPage} from './pages/feeds/FeedsPage'
 import { Playlist } from './pages/trackList/Playlist'
-import { browserLocalPersistence, onAuthStateChanged, setPersistence } from 'firebase/auth'
-import { auth } from './config/firebase'
+import { onAuthStateChanged, signInWithPopup, } from 'firebase/auth'
+import { auth, googleProvider } from './config/firebase'
 
 function App() {
 
   //Autentication
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState({});
   const [showAuthPage, setShowAuthPage] = useState(false);
+  const [Autherror, setAuthError] = useState('');
+    
   useEffect(()=>{
     const unsubscribe = onAuthStateChanged(auth, (currentUser)=>{
       setUser(currentUser);
+      console.log('user: ', user);
     })
     return ()=>unsubscribe()
-  }, [])
+  }, []);
+
+  const loginGoogle = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (err) {
+      console.error(err.message)
+      setAuthError(err.message)
+    }
+  };
+
+  const handleSignOut = () => {
+    auth.signOut()
+      .then(() => {
+        setShowAuthPage(false);
+      })
+      .catch((error) => {
+        console.error("Sign out error:", error);
+      });
+  };
+
   //Navigation states
   const[origin, setOrigin] = useState(null)
 
@@ -261,16 +284,6 @@ function App() {
   const reorderSelectedSongs = (newOrder) => {
     setSelectedSong(newOrder);
   };
-  // Authentication functions
-  useEffect(()=>{
-    setPersistence(auth, browserLocalPersistence)
-      .then(()=>{
-        console.log('Persitence to storage')
-      })
-      .catch((err)=>{
-        console.error("Persistence error:  ",err.meassage)
-      })
-  })
 
   const contextValue = {
     // Authentication state
@@ -278,6 +291,11 @@ function App() {
     showAuthPage,
     setShowAuthPage,
     reorderSelectedSongs,
+    Autherror,
+    setAuthError,
+    loginGoogle,
+    handleSignOut,
+
     // Audio controls
     togglePlay,
     handleSeek,

@@ -10,7 +10,6 @@ import { RiAccountPinCircleFill } from "react-icons/ri";
 export default function Navbar() {
 
  const {user, setShowAuthPage} = useContext(MyContext);
- console.log(user);
  
   return (
     <nav className=" grow-0 p-[20px] flex-col gap-5 bg-[#FAFAFA] w-fit shadow-xl/30 bg-linear-to-bl from-[#384B35] to-[#2D3249] hidden lg:flex lg:w-[80px] sm:w-[60px] md:w-[70px]">
