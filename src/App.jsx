@@ -386,19 +386,19 @@ function App() {
           } />
           <Route path='/artist/:name' element={<ArtistInfo />} />
           <Route path='playlist/:name' element={
-            <ProtectedRoute>
+            
               <Playlist/>
-            </ProtectedRoute>
+            
             } />
           <Route path='/library' element={
-            <ProtectedRoute>
+            
               <Favourite />
-            </ProtectedRoute>
+            
             } />
           <Route path='account' element={
-            <ProtectedRoute>
+            
               <Account />
-            </ProtectedRoute>
+            
             } />
           <Route path='feed/:id' element={<FeedsInfoPage />} />
         </Route>
