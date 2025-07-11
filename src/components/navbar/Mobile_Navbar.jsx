@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
 import { NavLink } from 'react-router'
 import { MyContext } from '../../Context';
-import { CiHeart, CiSettings } from 'react-icons/ci';
+import { CiHeart, } from 'react-icons/ci';
 import { LuGrip } from 'react-icons/lu';
 import { ImHeadphones } from 'react-icons/im';
+import { RiAccountPinCircleFill } from 'react-icons/ri';
 
 const Mobile_Navbar = () => {
 
@@ -36,13 +37,14 @@ const Mobile_Navbar = () => {
           fontSize={32}
         />
       </NavLink>
+
       <NavLink
-        to="settings"
+        to="account"
         className={({ isActive }) =>
           `p-2 rounded-md ${isActive ? "text-green-700" : "text-gray-400"}`
         }
       >
-        <CiSettings
+        <RiAccountPinCircleFill
           fontSize={32}
         />
       </NavLink>

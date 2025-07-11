@@ -10,7 +10,6 @@ import { useEffect, useRef, useState } from 'react'
 import { SignUp } from './pages/sign-up/Sign-Up'
 import { Login } from './pages/login/Login'
 import { NotFound } from './pages/404/404'
-import { Settings } from './pages/settings/Settings'
 import { FeedsInfoPage} from './pages/feeds/FeedsPage'
 import { Playlist } from './pages/trackList/Playlist'
 import { onAuthStateChanged, signInWithPopup, } from 'firebase/auth'
@@ -399,11 +398,6 @@ function App() {
           <Route path='account' element={
             <ProtectedRoute>
               <Account />
-            </ProtectedRoute>
-            } />
-          <Route path='settings' element={
-            <ProtectedRoute>
-              <Settings />
             </ProtectedRoute>
             } />
           <Route path='feed/:id' element={<FeedsInfoPage />} />

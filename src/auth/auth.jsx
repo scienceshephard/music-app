@@ -66,7 +66,17 @@ export const AuthPage = () => {
 
 
   return (
-    <div ref={authRef} className="lg:w-[40%]  p-6 rounded-3xl shadow-lg">
+    <div ref={authRef} className="
+      w-full
+      max-w-md
+      sm:w-[90%]
+      md:w-[60%]
+      lg:w-[40%]
+      p-6
+      rounded-3xl
+      shadow-lg
+      mx-auto
+      ">
       {user ? (
         <div className="w-full flex flex-col gap-10 h-full">
           <h1 className="text-center text-2xl text-red-800 font-extrabold">
