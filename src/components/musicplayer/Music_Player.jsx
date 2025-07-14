@@ -3,7 +3,7 @@ import { MyContext } from '../../Context';
 import { Playlist } from '../../pages/trackList/Playlist';
 import { LuLoaderCircle, LuRepeat1 } from 'react-icons/lu';
 import { FiAlertCircle } from 'react-icons/fi';
-import { FaMinus, FaPause } from 'react-icons/fa';
+import { FaArrowAltCircleDown, FaMinus, FaPause } from 'react-icons/fa';
 import { IoIosSkipForward, IoMdRepeat, IoMdSkipBackward } from 'react-icons/io';
 import { CiPlay1, CiShuffle } from 'react-icons/ci';
 import { CgRepeat } from 'react-icons/cg';
@@ -23,7 +23,8 @@ export default function Music_Player() {
     skipPrev, 
     skipNext,
     selectedSong, 
-    showMobileMusicPlayer, 
+    showMobileMusicPlayer,
+    setShowMobileMusicPlayer,
     audioLoading,
     audioError,
     formatTime,
@@ -81,6 +82,12 @@ export default function Music_Player() {
       {/* Main player content */}
       {!audioLoading && (
         <div className={`${showMobileMusicPlayer ? 'h-dvh  flex flex-col pt-5 ' : ''}`}>
+          <button
+            className="text-4xl"
+            onClick={() => setShowMobileMusicPlayer(!showMobileMusicPlayer)}
+            >
+            <FaArrowAltCircleDown />
+          </button>
           <h1 className='font-medium text-2xl mb-4 text-center'>Now Playing</h1>
           
           <div className='flex flex-col w-[80%]  mx-auto'>
