@@ -87,7 +87,6 @@ function App() {
 
   // Audio event handlers
   const handleAudioLoad = () => {
-    console.log('Audio loaded, setting loading to false');
     setAudioLoading(false);
     setAudioError(null);
   };
@@ -238,23 +237,19 @@ function App() {
     const updateTime = () => setCurrentTime(audio.currentTime);
     const updateDuration = () => {
       const newDuration = audio.duration || 0;
-      console.log('Duration updated:', newDuration);
       setDuration(newDuration);
 
     };
     
     const handleLoadStart = () => {
-      console.log('Audio load started');
       setAudioLoading(true);
     };
     
     const handleCanPlay = () => {
-      console.log('Audio can play');
       handleAudioLoad();
     };
     
     const handleLoadedData = () => {
-      console.log('Audio data loaded');
       handleAudioLoad();
     };
     
@@ -355,9 +350,6 @@ function App() {
       return new Date(time * 1000).toISOString().substr(14, 5);
     }
   };
-  // console.log('currentTime', currentTime);
-  // console.log('duration', duration);
-  
   
   return (
     <MyContext.Provider value={contextValue}>
@@ -386,19 +378,19 @@ function App() {
           } />
           <Route path='/artist/:name' element={<ArtistInfo />} />
           <Route path='playlist/:name' element={
-            
+          <ProtectedRoute>           
               <Playlist/>
-            
+            </ProtectedRoute>
             } />
           <Route path='/library' element={
-            
+            <ProtectedRoute>
               <Favourite />
-            
+            </ProtectedRoute>
             } />
           <Route path='account' element={
-            
+            <ProtectedRoute>
               <Account />
-            
+            </ProtectedRoute>
             } />
           <Route path='feed/:id' element={<FeedsInfoPage />} />
         </Route>
