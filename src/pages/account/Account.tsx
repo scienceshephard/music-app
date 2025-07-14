@@ -154,10 +154,11 @@ export const Account = () => {
         </div>
         <button
         onClick={() => setShowAuthPage(true)}
-        className='mr-20 mt-auto self-end cursor-pointer'>
+        className='flex items-center  hover:text-green-900 active:text-green-900 text-2xl mr-20 mt-20 lg:mt-auto self-end cursor-pointer'>
+          Log Out
           <AiOutlineLogout
             size={42}
-            className="text-gray-900 hover:text-green-900 active:text-green-900"
+            className="text-gray-900  hover:text-green-900 active:text-green-900"
 
           />
         </button>

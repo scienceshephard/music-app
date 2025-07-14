@@ -211,7 +211,7 @@ export default function Music_Player() {
               
               <button 
                 onClick={skipNext} 
-                disabled={audioLoading ||selectedSong.length <= 1}
+                disabled={audioLoading || selectedSong.length <= 1}
                 className="cursor-pointer hover:text-[#498000] text-[#008000] transition-colors disabled:text-gray-400 disabled:cursor-not-allowed"
               >
                 <IoIosSkipForward  />
