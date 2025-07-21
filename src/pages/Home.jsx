@@ -28,7 +28,8 @@ const Home = () => {
         {/* Mobile Design */}
         <div className='lg:hidden flex flex-col min-h-dvh'>
           {!showMobileMusicPlayer && 
-          <div className='flex flex-1 flex-col overflow-y-auto scroll-smoothborder'>
+          <div className='flex p-5 flex-1 flex-col overflow-y-auto scroll-smoothborder'>
+            <NavgationButtons />
             <Outlet />
           </div>}
             {showMobileMusicPlayer && selectedSong &&

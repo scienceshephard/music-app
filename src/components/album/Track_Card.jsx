@@ -1,5 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
+import React, { useContext, useState, useRef } from 'react';
 import { Link } from 'react-router';
 import { MyContext } from '../../Context';
 import { FaEllipsisH } from 'react-icons/fa';
@@ -76,7 +75,7 @@ export const Track_Card = ({ tracks, scrollContainer }) => {
           </span>
         </div>
       </div>
-      <DropdownMenu buttonRef={buttonRef} isOpen={isOpen} menuItems={menuItems} menuPosition={menuPosition} scrollContainer={scrollContainer} setMenuPosition={setMenuPosition} setIsOpen={setIsOpen} nppm/>
+      <DropdownMenu buttonRef={buttonRef} isOpen={isOpen} menuItems={menuItems} menuPosition={menuPosition} scrollContainer={scrollContainer} setMenuPosition={setMenuPosition} setIsOpen={setIsOpen} />
     </>
   );
 };

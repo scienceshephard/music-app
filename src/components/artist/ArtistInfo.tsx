@@ -4,7 +4,7 @@ import { useParams } from 'react-router'
 
 export const ArtistInfo = () => {
   const params = useParams()
-  const [artistInfo, setArtistInfo] = useState()
+  const [artistInfo, setArtistInfo] = useState([])
 
   useEffect(() => {
     const handleArtistinfoFetch = async () => {
@@ -17,7 +17,6 @@ export const ArtistInfo = () => {
           },
         })
         setArtistInfo(res.data.results)
-        console.log(res.data.results);
       } catch (error) {
         console.error('Error while fetching the tracks', error)
       }
@@ -40,6 +39,7 @@ export const ArtistInfo = () => {
             <div key={index} className='text-center my-4'>
               <img src={artist.image || 'https://www.w3schools.com/howto/img_avatar.png'} alt={artist.name} className='w-2/3 mx-auto rounded-2xl' />
               <p className='text-lg font-semibold'>{artist.name}</p>
+              <p>This user joined: {artist.joindate}</p>
             </div>
           ))}
         </div>

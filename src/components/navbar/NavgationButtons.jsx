@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router'
 import { useSearch } from '../../hooks/useSearch'
 import { CiSearch } from 'react-icons/ci'
 import { FaAngleRight, FaAngleLeft } from 'react-icons/fa'
-
+import SearchModal from './SearchModells'
 const NavgationButtons = () => {
   const [showInput, setShowInput] = useState(false)
   const navigate = useNavigate()
@@ -59,11 +59,13 @@ const NavgationButtons = () => {
   const [query, setQuery] = useState('')
   const [pageNumber, setPageNumber] = useState()
   const { searchData } = useSearch(query, pageNumber)
+  const [showModal, setShowModal] = useState(false);
 
   function handleSearch(e) {
     setQuery(e.target.value)
     setPageNumber(1)
-    console.log(searchData)
+    setShowModal(true); // Show modal when searching
+
   }
 
   const handleLabelClick = () => {
@@ -118,7 +120,7 @@ const NavgationButtons = () => {
             }`}
         >
             <input
-            type="search"
+            type="text"
             onChange={handleSearch}
             id="search"
             ref={inputRef}
@@ -126,6 +128,13 @@ const NavgationButtons = () => {
             />
         </div>
       </div>
+      {/* Search Modal */}
+      <SearchModal
+        open={showModal && query.length > 0}
+        onClose={() => setShowModal(false)}
+        searchData={searchData}
+        query={query}
+      />
     </div>
   )
 }

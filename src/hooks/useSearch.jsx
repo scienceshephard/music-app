@@ -13,12 +13,12 @@ export const useSearch = (query, pageNumber) => {
         type: 'tracks',
       },
       {
-        url: 'https://api.jamendo.com/v3.0/album',
-        type: 'album',
+        url: 'https://api.jamendo.com/v3.0/albums',
+        type: 'albums',
       },
       {
-        url: 'https://api.jamendo.com/v3.0/artist',
-        type: 'artist',
+        url: 'https://api.jamendo.com/v3.0/artists',
+        type: 'artists',
       }
     ]
     Promise.all(endpoints.map(({url, type}) =>

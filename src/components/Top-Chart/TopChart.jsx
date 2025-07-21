@@ -25,7 +25,7 @@ export const TopChart = ({
           {loadingAlbums && allAlbums.length === 0 && (
             <div className="flex overflow-hidden w-full">
               <div className="animate-pulse flex space-x-4">
-                {[1, 2, 3, 4, 5, 6].map((item) => (
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
                   <div
                     key={item}
                     className="rounded-lg bg-gray-200 h-40 w-28"
@@ -57,7 +57,7 @@ export const TopChart = ({
           {loadingTrack && allTracks.length === 0 && (
             <div className="animate-pulse w-full">
               <div className="gap-2 overflow-x-hidden  space-x-4 flex">
-                {[1, 2, 3, 4, 5].map((item) => (
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
                   <div
                     key={item}
                     className="bg-gray-200 h-50 rounded-2xl p-2 gap-5 flex flex-col"

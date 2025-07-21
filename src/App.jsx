@@ -379,7 +379,11 @@ function App() {
           <Route index element={
               <Feeds />
           } />
-          <Route path='/artist/:name' element={<ArtistInfo />} />
+          <Route path='/artist/:name' element={
+              <ProtectedRoute>
+                <ArtistInfo />
+              </ProtectedRoute>
+              } />
           <Route path='playlist/:name' element={
           <ProtectedRoute>           
               <Playlist/>
