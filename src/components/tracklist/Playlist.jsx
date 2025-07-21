@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { MyContext } from '../../Context';
 import {
   DndContext,
   closestCenter,
@@ -16,6 +15,7 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { IoMenu } from 'react-icons/io5';
+import { MyContext } from '../../Context';
 
 export const Playlist = () => {
   const { selectedSong, currentSongIndex, reorderSelectedSongs } = useContext(MyContext);

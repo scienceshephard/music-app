@@ -155,9 +155,6 @@ export const AuthPage = () => {
             <button className="cursor-pointer" onClick={loginGoogle}>
               <FcGoogle />
             </button>
-            <button className="cursor-pointer text-blue-800" onClick={loginMail}>
-              <FaFacebook />
-            </button>
           </div>
         </div>
       )}

@@ -2,6 +2,7 @@ import { useContext, useState } from "react"
 import { AiOutlineLogout } from "react-icons/ai";
 import { useNavigate } from "react-router";
 import { MyContext } from "../../Context";
+import { updateProfile } from "firebase/auth";
 
 export const Account = () => {
 
@@ -16,14 +17,16 @@ export const Account = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+    if(user){
+      await updateProfile(user, {
+        displayName: `${firstName} ${lastName}`,
+      })
+    }
     // Simulate API call delay
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
     setIsSubmitting(false);
     navigate('/'); 
   };
-  console.log(user)
   
     return(
       <div className="flex flex-col items-center min-h-[85dvh]">

@@ -3,53 +3,37 @@ import { createPortal } from 'react-dom';
 import { Link } from 'react-router';
 import { MyContext } from '../../Context';
 import { FaEllipsisH } from 'react-icons/fa';
+import { DropdownMenu } from './DropdownMenu';
 
-let globalDropdownCloser = () => {};
 
 export const Track_Card = ({ tracks, scrollContainer }) => {
-  const { setSelectedSong, setAlbumloading, setCurrentSongIndex, selectedSong } = useContext(MyContext);
+  const { favourite, setFavourite, setSelectedSong, setAlbumloading, setCurrentSongIndex, selectedSong } = useContext(MyContext);
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef(null);
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
 
-  const updateMenuPosition = () => {
-    if (buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
-      setMenuPosition({
-        top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX
-      });
-    }
-  };
-
-  const openDropdown = () => {
-    globalDropdownCloser();
-    globalDropdownCloser = () => setIsOpen(false);
-
-    updateMenuPosition();
-    setIsOpen(true);
-
-    // Listen to horizontal scroll on the container
-    scrollContainer?.current?.addEventListener('scroll', updateMenuPosition);
-    window.addEventListener('resize', updateMenuPosition);
-  };
-
-  const closeDropdown = () => {
-    setIsOpen(false);
-    scrollContainer?.current?.removeEventListener('scroll', updateMenuPosition);
-    window.removeEventListener('resize', updateMenuPosition);
-  };
-
-  const toggleDropdown = (e) => {
-    e.stopPropagation();
-    isOpen ? closeDropdown() : openDropdown();
-  };
-
-  useEffect(() => {
-    const handleClickOutside = () => closeDropdown();
-    if (isOpen) document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, [isOpen]);
+  const menuItems= [
+    {
+      label: "Add to favourite",
+      onClick: ()=>{
+        const isAlreadyInFavourite = favourite?.find(song => song.id === tracks.id);
+        if (!isAlreadyInFavourite) setFavourite(prev => [...prev, tracks]);
+      }
+    },
+    {
+      label: "Add to queue",
+      onClick: () => {
+        const isAlreadyInQueue = selectedSong.find(song => song.id === tracks.id);
+        if (!isAlreadyInQueue) setSelectedSong(prev => [...prev, tracks]);
+      },
+    },
+    {
+      label: "Share",
+      onClick: () => {
+        // Implement share logic here
+      },
+    },
+  ]
 
   const handleSelectedSong = (item) => {
     setTimeout(() => {
@@ -64,8 +48,11 @@ export const Track_Card = ({ tracks, scrollContainer }) => {
       <div className="flex flex-col bg-gray-200 hover:bg-gray-400 rounded-lg p-2 shadow-sm hover:shadow-md transition-shadow min-w-[110px] max-w-[110px]">
         <button
           ref={buttonRef}
-          className="cursor-pointer hover:text-gray-700 text-green-800 self-end"
-          onClick={toggleDropdown}
+          className="cursor-pointer hover:text-gray-700 text-green-800"
+          onClick={e=>{
+            e.stopPropagation();
+            setIsOpen(prev => !prev)
+          }}
           type="button"
         >
           <FaEllipsisH fontSize={22} />
@@ -89,31 +76,7 @@ export const Track_Card = ({ tracks, scrollContainer }) => {
           </span>
         </div>
       </div>
-
-      {isOpen &&
-        createPortal(
-          <div
-            className="bg-white border border-gray-300 rounded shadow-lg z-[9999] w-fit"
-            style={{
-              position: 'absolute',
-              top: `${menuPosition.top}px`,
-              left: `${menuPosition.left}px`,
-            }}
-          >
-            <span className="p-2.5 block text-sm hover:bg-gray-200">Add to favourite</span>
-            <span className="p-2.5 block text-sm hover:bg-gray-200" 
-            onClick={() => {
-              const isAlreadyInQueue = selectedSong.find(song => song.id === tracks.id);
-              if (!isAlreadyInQueue) {
-                setSelectedSong(prev => [...prev, tracks]);
-              }
-              closeDropdown();
-            }}
-            >Add to queue</span>
-            <span className="p-2.5 block text-sm hover:bg-gray-200">Share</span>
-          </div>,
-          document.getElementById('dropdown-root')
-        )}
+      <DropdownMenu buttonRef={buttonRef} isOpen={isOpen} menuItems={menuItems} menuPosition={menuPosition} scrollContainer={scrollContainer} setMenuPosition={setMenuPosition} setIsOpen={setIsOpen} nppm/>
     </>
   );
 };

@@ -7,14 +7,12 @@ import { Account } from './pages/account/Account'
 import { ArtistInfo } from './components/artist/ArtistInfo'
 import { MyContext } from './Context'
 import { useEffect, useRef, useState } from 'react'
-import { SignUp } from './pages/sign-up/Sign-Up'
-import { Login } from './pages/login/Login'
 import { NotFound } from './pages/404/404'
 import { FeedsInfoPage} from './pages/feeds/FeedsPage'
-import { Playlist } from './pages/trackList/Playlist'
 import { onAuthStateChanged, signInWithPopup, } from 'firebase/auth'
 import { auth, googleProvider } from './config/firebase'
 import { ProtectedRoute } from './components/ProtectedRoute'
+import { Playlist } from './components/tracklist/Playlist'
 
 function App() {
 
@@ -26,7 +24,6 @@ function App() {
   useEffect(()=>{
     const unsubscribe = onAuthStateChanged(auth, (currentUser)=>{
       setUser(currentUser);
-      console.log('user: ', user);
     })
     return ()=>unsubscribe()
   }, []);
@@ -57,6 +54,8 @@ function App() {
       });
   };
 
+  
+
   //Navigation states
   const[origin, setOrigin] = useState(null)
 
@@ -80,7 +79,9 @@ function App() {
   const [audioError, setAudioError] = useState(null);
   const audioRef = useRef(null);
   const [showMobileMusicPlayer, setShowMobileMusicPlayer] = useState(false);
-  const [ songList, setSongList ] = useState([])
+
+  // Favourites
+  const [favourite, setFavourite] = useState([])
 
   //Animation states
   const [albumloading, setAlbumloading] = useState(true)
@@ -341,9 +342,11 @@ function App() {
     setAllFeeds,
     searchData,
     setSearchData,
-    songList,
-    setSongList,
     
+    //Favourites
+    favourite, 
+    setFavourite,
+
     // Time utilities
     formatTime: (time) => {
       if (!time || isNaN(time)) return '00:00';
@@ -394,8 +397,6 @@ function App() {
             } />
           <Route path='feed/:id' element={<FeedsInfoPage />} />
         </Route>
-        <Route path='/sign-up' element={<SignUp />} />
-        <Route path='/login' element={<Login />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </MyContext.Provider>

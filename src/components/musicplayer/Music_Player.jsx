@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { MyContext } from '../../Context';
-import { Playlist } from '../../pages/trackList/Playlist';
+import { Playlist } from '../tracklist/Playlist';
 import { LuLoaderCircle, LuRepeat1 } from 'react-icons/lu';
 import { FiAlertCircle } from 'react-icons/fi';
 import { FaArrowAltCircleDown, FaMinus, FaPause } from 'react-icons/fa';
