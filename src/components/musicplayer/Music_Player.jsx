@@ -83,7 +83,7 @@ export default function Music_Player() {
       {!audioLoading && (
         <div className={`${showMobileMusicPlayer ? 'h-dvh  flex flex-col pt-5 ' : ''}`}>
           <button
-            className="text-4xl"
+            className="text-4xl sm:block lg:hidden"
             onClick={() => setShowMobileMusicPlayer(!showMobileMusicPlayer)}
             >
             <FaArrowAltCircleDown />
